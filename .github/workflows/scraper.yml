@@ -1,0 +1,42 @@
+name: RudraSpark Rental Autonomous Scraper Engine
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # Runs every 6 hours
+  workflow_dispatch:        # Manual trigger
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        worker_id: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+
+    steps:
+      - name: Checkout Codebase
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Project Dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium Browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Execute Rental Worker ${{ matrix.worker_id }}
+        run: node multi_worker.js ${{ matrix.worker_id }} 15
+
+      - name: Commit and Push Updated Registry & Progress
+        run: |
+          git config --global user.name "RudraSpark-Rental-Bot"
+          git config --global user.email "bot@rudraspark.app"
+          git add registry_W*.txt progress_W*.json || true
+          git commit -m "Worker ${{ matrix.worker_id }} update [skip ci]" || exit 0
+          git pull --rebase origin main || true
+          git push origin main
