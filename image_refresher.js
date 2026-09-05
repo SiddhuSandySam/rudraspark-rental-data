@@ -45,7 +45,7 @@ async function flushBatches() {
                 const resData = String(r.data || "");
                 const logData = resData.length > 100 ? resData.substring(0, 100) + "..." : resData;
 
-                if (resData.includes("Success") || resData.includes("Complete") || resData.includes("Maharashtra") || resData.includes("config") || resData.includes("already exists")) {
+                if (resData.includes("Success") || resData.includes("Complete") || resData.includes(": Success") || resData.includes("config") || resData.includes("already exists")) {
                     writeLog(`   ✅ Hub Response [A${attempt}]: ${logData}`);
                     syncBatch = syncBatch.filter(p => !leadsToSync.includes(p));
                     success = true;
