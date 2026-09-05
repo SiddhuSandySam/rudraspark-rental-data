@@ -1,6 +1,8 @@
 /**
  * 🏛️ RUDRASPARK RENTAL MAIN HUB SCRIPT
+ * Central Intelligence Hub for Rental Ecosystem
  */
+
 var CACHE_TTL = 900;
 
 function doGet(e) {
@@ -42,6 +44,45 @@ function doPost(e) {
     lock.waitLock(30000);
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var data = JSON.parse(e.postData.contents);
+
+    if (data.type === "ADD_TO_REFRESH_QUEUE") {
+      var qSheet = ss.getSheetByName("RefreshQueue") || ss.insertSheet("RefreshQueue");
+      if (qSheet.getLastRow() === 0) { qSheet.appendRow(["ID", "Name", "Address", "State", "Status", "Timestamp", "City", "CategoryId", "Subcategory"]); }
+      var ids = qSheet.getRange(1, 1, Math.max(qSheet.getLastRow(), 1), 1).getValues().flat().map(String);
+      if (ids.indexOf(String(data.id)) === -1) {
+        qSheet.appendRow([data.id, data.name, data.addr, data.state, "PENDING", Date.now(), data.city || "", data.categoryId || "", data.subcategory || ""]);
+        return ContentService.createTextOutput("Success: Added to Queue");
+      }
+      return ContentService.createTextOutput("Already in Queue");
+    }
+
+    if (data.type === "GET_REFRESH_QUEUE") {
+      var qSheet = ss.getSheetByName("RefreshQueue");
+      if (!qSheet || qSheet.getLastRow() <= 1) return ContentService.createTextOutput("[]");
+      var qData = qSheet.getDataRange().getValues();
+      var tasks = [];
+      for (var i = 1; i < qData.length; i++) {
+        tasks.push({ id: qData[i][0], name: qData[i][1], addr: qData[i][2], state: qData[i][3], city: qData[i][6], categoryId: qData[i][7], subcategory: qData[i][8] });
+      }
+      return ContentService.createTextOutput(JSON.stringify(tasks));
+    }
+
+    if (data.type === "MARK_REFRESH_DONE") {
+      var qSheet = ss.getSheetByName("RefreshQueue");
+      if (qSheet) {
+        var targetIds = data.ids || [data.id];
+        var allIds = qSheet.getRange(1, 1, Math.max(qSheet.getLastRow(), 1), 1).getValues().flat().map(String);
+        var rowsToDelete = [];
+        targetIds.forEach(function(id) {
+          var idx = allIds.indexOf(String(id).trim());
+          if (idx !== -1) rowsToDelete.push(idx + 1);
+        });
+        rowsToDelete.sort(function(a, b) { return b - a; });
+        rowsToDelete.forEach(function(row) { qSheet.deleteRow(row); });
+        return ContentService.createTextOutput("Success: Cleaned Queue");
+      }
+      return ContentService.createTextOutput("Success");
+    }
 
     if (data.type === "PROVIDER_SYNC" || data.type === "DELETE_ENTRIES" || data.type === "BATCH_PROVIDER_SYNC" || data.type === "IMAGE_UPDATE" || data.type === "BATCH_IMAGE_UPDATE") {
         return routeToSatellite(ss, data);

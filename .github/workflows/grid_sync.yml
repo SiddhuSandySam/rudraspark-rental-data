@@ -1,0 +1,74 @@
+name: RudraSpark Rental Dynamic Grid Auto-Sync
+
+on:
+  schedule:
+    - cron: '0 */4 * * *' # Every 4 hours (Incremental)
+    - cron: '0 0 * * *'   # Midnight (Full Sync)
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Sync Mode'
+        required: true
+        default: 'incremental'
+        type: choice
+        options:
+        - incremental
+        - full
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install Dependencies
+        run: npm install axios
+      
+      - name: Run Rental Sync Robot
+        run: |
+          if [[ "${{ github.event.schedule }}" == "0 0 * * *" ]] || [[ "${{ github.event.inputs.mode }}" == "full" ]]; then
+            echo "🚀 Running FULL Rental Sync..."
+            node auto_sync_grids.js --full
+          else
+            echo "📡 Running INCREMENTAL Rental Sync..."
+            node auto_sync_grids.js
+          fi
+          
+          echo "🔄 Syncing config.json..."
+          node config_sync_bot.js
+
+      - name: Commit and Push
+        run: |
+          git config --global user.name "RudraSpark-Rental-Robot"
+          git config --global user.email "bot@rudraspark.app"
+          
+          git config --global http.postBuffer 524288000
+          git config --global core.compression 9
+          
+          for i in {1..20}; do
+            echo "Attempt $i: Syncing rental robot updates..."
+            rm -rf node_modules || true
+            git add hub_data.json last_sync.json config.json || true
+            git add "*_grids/*.json" 2>/dev/null || true
+            
+            git commit -m "Rental Robot: Data Sync [Mode: ${{ github.event.inputs.mode || 'Auto' }}]" || { 
+              echo "Nothing new to commit..."
+            }
+            
+            if git pull --rebase --autostash -X ours origin main; then
+              if git push origin main; then
+                echo "✅ Rental Robot sync successful!"
+                exit 0
+              fi
+            fi
+            
+            echo "❌ Conflict or Network Error (Attempt $i), retrying in 30s..."
+            git rebase --abort || true
+            sleep 30
+          done
+          exit 1
