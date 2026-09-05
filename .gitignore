@@ -1,0 +1,6 @@
+node_modules/
+.ds_store
+*.log
+refresh_logs_*.txt
+backup_leads_*.json
+failed_sync_*.json

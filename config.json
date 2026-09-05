@@ -1,0 +1,137 @@
+{
+  "states": [
+    {
+      "name": "Maharashtra",
+      "cities": [
+        "Mumbai", "Pune", "Nagpur", "Thane", "Pimpri-Chinchwad", "Nashik", "Kalyan-Dombivli",
+        "Vasai-Virar", "Aurangabad", "Navi Mumbai", "Solapur", "Mira-Bhayandar", "Bhiwandi",
+        "Amravati", "Nanded", "Kolhapur", "Ulhasnagar", "Sangli-Miraj-Kupwad", "Malegaon",
+        "Jalgaon", "Akola", "Latur", "Dhule", "Ahmednagar", "Chandrapur", "Parbhani", "Ichalkaranji",
+        "Jalna", "Ambarnath", "Bhusawal", "Panvel", "Badlapur", "Beed", "Gondia", "Satara",
+        "Barshi", "Yavatmal", "Achalpur", "Osmanabad", "Nandurbar", "Wardha", "Udgir", "Hinganghat"
+      ]
+    },
+    {
+      "name": "Andhra Pradesh",
+      "cities": [
+        "Visakhapatnam", "Vijayawada", "Guntur", "Nellore", "Kurnool", "Kakinada", "Rajahmundry",
+        "Tirupati", "Kadapa", "Anantapur", "Vizianagaram", "Eluru", "Ongole", "Nandyal", "Machilipatnam"
+      ]
+    },
+    {
+      "name": "Gujarat",
+      "cities": [
+        "Ahmedabad", "Surat", "Vadodara", "Rajkot", "Bhavnagar", "Jamnagar", "Junagadh", "Gandhinagar",
+        "Gandhidham", "Anand", "Navsari", "Morbi", "Nadiad", "Surendranagar", "Bharuch"
+      ]
+    },
+    {
+      "name": "Karnataka",
+      "cities": [
+        "Bengaluru", "Mysuru", "Hubballi-Dharwad", "Mangaluru", "Belagavi", "Davangere", "Ballari",
+        "Vijayapura", "Shivamogga", "Tumakuru", "Raichur", "Bidar", "Hosapete", "Hassan"
+      ]
+    }
+  ],
+  "categories": [
+    {
+      "id": "cat_camera_rent",
+      "name": "Camera & Studio Gear",
+      "icon": "ic_cat_camera",
+      "sub": [
+        "DSLR Camera Rent",
+        "Camera Lens Rent",
+        "Drone Camera Rent",
+        "Studio Lighting Rent",
+        "GoPro Camera Rent",
+        "Gimbal Stabilizer Rent"
+      ],
+      "isTop": true,
+      "sortOrder": 1
+    },
+    {
+      "id": "cat_event_rent",
+      "name": "Sound & Event Equipment",
+      "icon": "ic_cat_sound",
+      "sub": [
+        "DJ Sound Rent",
+        "Party Speaker Rent",
+        "Stage Lighting Rent",
+        "Projector Rent",
+        "Generators for Events",
+        "LED Screen Rent"
+      ],
+      "isTop": true,
+      "sortOrder": 2
+    },
+    {
+      "id": "cat_tools_rent",
+      "name": "Power Tools & Machinery",
+      "icon": "ic_cat_tools",
+      "sub": [
+        "Drill Machine Rent",
+        "Concrete Mixer Rent",
+        "Scaffolding Ladder Rent",
+        "Welding Machine Rent",
+        "Lawn Mower Rent",
+        "Cutter Machine Rent"
+      ],
+      "isTop": true,
+      "sortOrder": 3
+    },
+    {
+      "id": "cat_costumes_rent",
+      "name": "Wedding & Costume Rent",
+      "icon": "ic_cat_costume",
+      "sub": [
+        "Sherwani on Rent",
+        "Bridal Lehenga Rent",
+        "Fancy Dress Rent",
+        "Tuxedo Suit Rent",
+        "Jewellery on Rent"
+      ],
+      "isTop": true,
+      "sortOrder": 4
+    },
+    {
+      "id": "cat_medical_rent",
+      "name": "Medical & Healthcare",
+      "icon": "ic_cat_medical",
+      "sub": [
+        "Wheelchair on Rent",
+        "Oxygen Concentrator Rent",
+        "Hospital Bed Rent",
+        "Patient Monitor Rent",
+        "Walker on Rent"
+      ],
+      "isTop": true,
+      "sortOrder": 5
+    },
+    {
+      "id": "cat_vehicles_rent",
+      "name": "Vehicles & Transport",
+      "icon": "ic_cat_vehicle",
+      "sub": [
+        "Self Drive Car Rent",
+        "Scooter Bike Rent",
+        "Tempo Pickup Rent",
+        "Bicycle on Rent"
+      ],
+      "isTop": true,
+      "sortOrder": 6
+    },
+    {
+      "id": "cat_camping_rent",
+      "name": "Camping & Outdoor",
+      "icon": "ic_cat_camping",
+      "sub": [
+        "Camping Tent Rent",
+        "Trekking Bag Rent",
+        "Barbecue Grill Rent",
+        "Sleeping Bag Rent"
+      ],
+      "isTop": true,
+      "sortOrder": 7
+    }
+  ]
+}
