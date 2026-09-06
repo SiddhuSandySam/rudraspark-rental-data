@@ -1,6 +1,7 @@
 /**
  * 🛰️ RUDRASPARK RENTAL SATELLITE ENGINE
- * Handles display values, 10-digit phone mapping, and in-place row updates on Claiming.
+ * Handles display values, 10-digit phone mapping, in-place row updates on Claiming,
+ * and protects USER_CLAIMED profiles from scraper overwrites.
  */
 function doGet(e) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -46,14 +47,15 @@ function doPost(e) {
     var sheet = ss.getSheetByName("Providers") || ss.getSheets()[0];
 
     if (type === "BATCH_PROVIDER_SYNC" || type === "PROVIDER_SYNC") {
-      var providers = data.providers || [data];
+      var providers = data.providers || data.updates || [data];
       var lastRow = sheet.getLastRow();
       var idMap = {};
       var phoneMap = {};
+      var dataMatrix = [];
 
       if (lastRow > 1) {
-        // 🚀 CRITICAL FIX: Use getDisplayValues() to prevent scientific notation (9.13691E+09)
-        var dataMatrix = sheet.getRange(2, 1, lastRow - 1, 31).getDisplayValues();
+        // 🚀 Use getDisplayValues() to prevent scientific notation (9.13691E+09)
+        dataMatrix = sheet.getRange(2, 1, lastRow - 1, 31).getDisplayValues();
         for (var i = 0; i < dataMatrix.length; i++) {
           var idInSheet = String(dataMatrix[i][0] || "").trim();
           if (idInSheet) idMap[idInSheet] = i + 2;
@@ -108,6 +110,14 @@ function doPost(e) {
         ];
 
         if (rowIdx) {
+          var existingRowData = dataMatrix[rowIdx - 2];
+          var existingReferredBy = String((existingRowData && existingRowData[25]) || "");
+
+          // 🛡️ USER CLAIMED PROTECTION: If existing row is USER_CLAIMED and incoming data is from Scraper, DO NOT OVERWRITE!
+          if (existingReferredBy.indexOf("USER") !== -1 && String(p.referredBy || "").indexOf("USER") === -1) {
+              return;
+          }
+
           // 🚀 OVERWRITE EXISTING SHADOW ROW IN-PLACE
           sheet.getRange(rowIdx, 1, 1, 31).setValues([rowData]);
         } else {
