@@ -1,6 +1,6 @@
 /**
  * 🏛️ RUDRASPARK RENTAL MAIN HUB SCRIPT
- * Central Intelligence Hub for Rental Ecosystem
+ * Central Intelligence Hub for Rental Ecosystem with Robust Case-Insensitive State Routing
  */
 
 var CACHE_TTL = 900;
@@ -97,18 +97,23 @@ function routeToSatellite(ss, data) {
   var items = data.providers || data.updates || [data];
   var stateGroups = {};
   items.forEach(function(item) {
-    var s = item.state || data.state;
+    var s = String(item.state || data.state || "").trim();
     if (s && s !== "" && s !== "null" && s !== "undefined") {
       if (!stateGroups[s]) stateGroups[s] = [];
       stateGroups[s].push(item);
     }
   });
+
   var results = [];
-  var stateConfigs = fetchStateUrls(ss);
+  var rawConfigs = fetchStateUrls(ss);
+  var stateConfigs = {};
+  Object.keys(rawConfigs).forEach(function(k) {
+    stateConfigs[k.toLowerCase().trim()] = String(rawConfigs[k]).trim();
+  });
+
   Object.keys(stateGroups).forEach(function(state) {
-    var satelliteUrl = stateConfigs[state];
-    if (satelliteUrl) {
-      // 🚀 ALWAYS PASS 'providers' ARRAY
+    var satelliteUrl = stateConfigs[state.toLowerCase().trim()];
+    if (satelliteUrl && satelliteUrl.length > 10) {
       var payload = {
         type: data.type,
         providers: stateGroups[state]
