@@ -417,7 +417,8 @@ async function scrapeCombination(page, city, state, categoryId, subcategory) {
         }
         return foundCount;
     } catch (e) {
-        return -1;
+        console.warn(`Rental Worker ${WORKER_ID} | ⚠️ | Scrape warning in ${city}: ${e.message}`);
+        return 0;
     }
 }
 
@@ -458,28 +459,30 @@ async function runOrchestrator() {
                 if (catIdx % TOTAL_WORKERS !== WORKER_ID) { progress.cityIndex = 0; continue; }
 
                 const category = config.categories[catIdx]; progress.categoryIndex = catIdx;
-                console.log(`\nRental Worker ${WORKER_ID} | 📂 | CATEGORY | ${category.name}`);
+                console.log(`\nRental Worker ${WORKER_ID} | [CAT START] | 📂 Starting Category ${catIdx + 1}/${config.categories.length}: ${category.name}\n`);
 
                 for (let cIdx = progress.cityIndex; cIdx < cities.length; cIdx++) {
                     const city = cities[cIdx]; progress.cityIndex = cIdx;
-                    console.log(`Rental Worker ${WORKER_ID} | 🏙️ | CITY | Entering City: ${city}`);
+                    console.log(`Rental Worker ${WORKER_ID} | [CITY START] | 🏙️ Entering City: ${city} (City ${cIdx + 1}/${cities.length})`);
 
                     for (let subIdx = progress.subcategoryIndex; subIdx < category.sub.length; subIdx++) {
                         if (isStopping) break;
 
                         const subcategory = category.sub[subIdx]; progress.subcategoryIndex = subIdx;
 
-                        console.log(`Rental Worker ${WORKER_ID} | 🏷️ | SCAN | ${subcategory} in ${city}`);
-                        const res = await scrapeCombination(page, city, state.name, category.id, subcategory);
-                        if (res === -1) { await gracefulShutdown(); return; }
+                        console.log(`Rental Worker ${WORKER_ID} | 🏷️ | SCAN | Sub-cat ${subIdx + 1}/${category.sub.length} | ${subcategory} in ${city}`);
+                        await scrapeCombination(page, city, state.name, category.id, subcategory);
+                        console.log(`Rental Worker ${WORKER_ID} | [FINISH] | Done with Sub-cat ${subIdx + 1}/${category.sub.length} (${subcategory}).`);
 
                         await saveProgress();
                     }
                     if (isStopping) break;
+                    console.log(`\nRental Worker ${WORKER_ID} | [CITY COMPLETED] | 🏙️ Done with City ${cIdx + 1}/${cities.length} (${city}). Moving next...\n`);
                     if (sheetBuffer.length > 0 || firestoreBuffer.length > 0) await flushBuffers();
                     progress.subcategoryIndex = 0;
                 }
                 if (isStopping) break;
+                console.log(`\nRental Worker ${WORKER_ID} | [CAT COMPLETED] | 📂 Finished Category ${catIdx + 1}/${config.categories.length} (${category.name}). Switching next...\n`);
                 progress.cityIndex = 0;
             }
             if (isStopping) break;
@@ -488,6 +491,7 @@ async function runOrchestrator() {
 
         await gracefulShutdown();
     } catch (fatal) {
+        console.error(`Rental Worker ${WORKER_ID} | [FATAL] | Loop Error: ${fatal.message}`);
         await gracefulShutdown();
     }
 }
