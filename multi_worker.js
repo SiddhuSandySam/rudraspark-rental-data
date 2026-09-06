@@ -57,29 +57,7 @@ let progress = { stateIndex: 0, cityIndex: 0, categoryIndex: 0, subcategoryIndex
 async function loadProgress() {
     if (fs.existsSync(PROGRESS_FILE)) {
         progress = JSON.parse(fs.readFileSync(PROGRESS_FILE));
-        console.log(`Worker ${WORKER_ID} | INFO | Local Progress Loaded.`);
-    }
-    if (db) {
-        try {
-            const doc = await db.collection('metadata').doc(`progress_W${WORKER_ID}`).get();
-            if (doc.exists) {
-                const cloudProgress = doc.data();
-                const isCloudAhead = cloudProgress.stateIndex > progress.stateIndex ||
-                    (cloudProgress.stateIndex === progress.stateIndex && cloudProgress.categoryIndex > progress.categoryIndex) ||
-                    (cloudProgress.stateIndex === progress.stateIndex && cloudProgress.categoryIndex === progress.categoryIndex && cloudProgress.cityIndex > progress.cityIndex);
-
-                if (isCloudAhead) {
-                    console.log(`Worker ${WORKER_ID} | INFO | 🚀 Cloud Progress JUMP:`);
-                    console.log(`   FROM: [State:${progress.stateIndex}, Cat:${progress.categoryIndex}, City:${progress.cityIndex}]`);
-                    console.log(`   TO  : [State:${cloudProgress.stateIndex}, Cat:${cloudProgress.categoryIndex}, City:${cloudProgress.cityIndex}]`);
-                    progress = cloudProgress;
-                } else {
-                    console.log(`Worker ${WORKER_ID} | INFO | Firebase Progress synced (Local is already at or ahead).`);
-                }
-            }
-        } catch (e) {
-            console.warn(`Worker ${WORKER_ID} | WARN | Could not fetch cloud progress: ${e.message}`);
-        }
+        console.log(`Rental Worker ${WORKER_ID} | INFO | Local Progress Loaded.`);
     }
 }
 
@@ -87,13 +65,10 @@ let sheetBuffer = [];
 let firestoreBuffer = [];
 let isFlushing = false;
 let newLeadsCount = 0;
-const BATCH_LIMIT = 150;
+const BATCH_LIMIT = 50;
 
 async function saveProgress() {
     fs.writeFileSync(PROGRESS_FILE, JSON.stringify(progress, null, 2));
-    if (db) {
-        await db.collection('metadata').doc(`progress_W${WORKER_ID}`).set(progress).catch(() => {});
-    }
 }
 
 async function flushBuffers(isExiting = false) {
