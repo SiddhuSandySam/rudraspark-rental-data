@@ -13,10 +13,10 @@ const args = process.argv.slice(2);
 const WORKER_ID = args[0] !== undefined ? parseInt(args[0]) : 0;
 const TOTAL_WORKERS = args[1] !== undefined ? parseInt(args[1]) : 1;
 
-let RENTAL_HUB_URL = "https://script.google.com/macros/s/AKfycbwyVByXtm5VYsEPOBrGEMYaI8LhYk9ZHq77BaPwruZIKGn9E-ewVhkta-IYf3k7jfhLjA/exec";
+const RENTAL_HUB_URL = "https://script.google.com/macros/s/AKfycbwyVByXtm5VYsEPOBrGEMYaI8LhYk9ZHq77BaPwruZIKGn9E-ewVhkta-IYf3k7jfhLjA/exec";
 const SYNC_FIRESTORE_ENABLED = false;
 const SYNC_SHEET_ENABLED = true;
-const HEADLESS = true;
+const HEADLESS = false; // 🚀 Opens visible browser on laptop!
 const COOL_DOWN_MS = 1000;
 const MAX_SESSION_TIME_MS = 330 * 60 * 1000; // 🚀 5.5 Hours Marathon Run!
 const START_TIMESTAMP = Date.now();
@@ -120,7 +120,7 @@ async function flushBuffers(isExiting = false) {
                 let retryAttempt = 0;
                 let stateSuccess = false;
 
-                // 🚀 INFINITE UNLIMITED RETRY LOOP UNTIL SUCCESS IS RECEIVED
+                // 🚀 INFINITE RETRY UNTIL GOOGLE SHEET CONFIRMS SUCCESS
                 while (!stateSuccess) {
                     retryAttempt++;
                     if (retryAttempt > 1) {
@@ -209,7 +209,7 @@ process.on('SIGTERM', () => gracefulShutdown(false));
 
 async function extractPortfolio(page) {
     try {
-        console.log(`Rental Worker ${WORKER_ID} | 📸 | Extracting Portfolio (V198 - ANTI-PROFILE FIX)...`);
+        console.log(`Rental Worker ${WORKER_ID} | 📸 | Extracting Portfolio...`);
         if (page.isClosed()) return [];
 
         const photoBtn = await page.$('button[data-value="Photos"], button[aria-label*="Photo"], button[aria-label*="फ़ोटो"], .m67q60 button');
