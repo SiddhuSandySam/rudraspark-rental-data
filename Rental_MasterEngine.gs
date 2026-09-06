@@ -108,10 +108,11 @@ function routeToSatellite(ss, data) {
   Object.keys(stateGroups).forEach(function(state) {
     var satelliteUrl = stateConfigs[state];
     if (satelliteUrl) {
-      var payload = { type: data.type };
-      if (data.providers) payload.providers = stateGroups[state];
-      else if (data.updates) payload.updates = stateGroups[state];
-      else payload.updates = stateGroups[state];
+      // 🚀 ALWAYS PASS 'providers' ARRAY
+      var payload = {
+        type: data.type,
+        providers: stateGroups[state]
+      };
       var options = { 'method': 'post', 'contentType': 'application/json', 'payload': JSON.stringify(payload), 'muteHttpExceptions': true };
       try {
         var response = UrlFetchApp.fetch(satelliteUrl, options);
