@@ -2057,7 +2057,8 @@
         "Byron Bazar",
         "Pragati Nagar",
         "Pamgarh",
-        "Jivan Vihar"
+        "Jivan Vihar",
+        "DDU Nagar"
       ]
     },
     {
@@ -2810,7 +2811,58 @@
         "Bihari Bag",
         "Vasant Nagar",
         "Mirjapar",
-        "D Colony"
+        "D Colony",
+        "Hansol",
+        "Dariyapur",
+        "Bakrol Bujrang",
+        "Kalupur",
+        "Bhadaj",
+        "Khadia",
+        "Kodiyar Nagar",
+        "BRTS",
+        "Karanpara",
+        "Nanbhawadi",
+        "Vijayrajnagar",
+        "Vora Bazar",
+        "Kalanala",
+        "Corner",
+        "Italva",
+        "Bilimora",
+        "Nankwada",
+        "Rajpur",
+        "Chhapi",
+        "Maruti Nagar",
+        "Halol",
+        "Marutinagar",
+        "Mehtapura",
+        "Aslali",
+        "Ambica Nagar",
+        "Ranchhod Nagar",
+        "Harinagar",
+        "Bhagu Nagar",
+        "Sham Nagar",
+        "Simada Naka",
+        "Devadh",
+        "Wankaner",
+        "Panchasar",
+        "Uma Nagar",
+        "Danteshwar",
+        "Punit Nagar",
+        "Pratham Avenue",
+        "Ghanshyam Nagar",
+        "LG Nagar",
+        "Chhani",
+        "Akhbar Nagar",
+        "Karmchari Nagar",
+        "Vishwas City",
+        "Amit Nagar",
+        "Padra",
+        "Dudhiya Talav",
+        "Jamalpore",
+        "Tolnaka",
+        "Ghogha Cir",
+        "Khanpur",
+        "Shreyas Colony"
       ]
     },
     {
@@ -2889,7 +2941,8 @@
         "Model Colony",
         "Budanpur",
         "Old DLF Colony",
-        "Sarhol"
+        "Sarhol",
+        "Naya Bazar"
       ]
     },
     {
@@ -3377,7 +3430,10 @@
         "Seoni Malwa",
         "Bina",
         "Khurai",
-        "Sevagram"
+        "Sevagram",
+        "Vijay Nagar",
+        "Maharana Pratap Nagar",
+        "ZoneI"
       ]
     },
     {
@@ -4478,6 +4534,7 @@
     }
   ],
   "stateUrls": {
-    "Maharashtra": "https://script.google.com/macros/s/AKfycbwuyK4piN5jnYG1WOxIo_xua5BRcORroGHi-6EI04ycI_T-ALlP5eP83lZvN_InpWkyaw/exec"
+    "Maharashtra": "https://script.google.com/macros/s/AKfycbwuyK4piN5jnYG1WOxIo_xua5BRcORroGHi-6EI04ycI_T-ALlP5eP83lZvN_InpWkyaw/exec",
+    "Andhra Pradesh": "https://script.google.com/macros/s/AKfycbwZrW8eEGqgMf02kRgeFPXTAlUZ1uYp5gKflAozZTyGGTQRp9FG-lFkQwgPul-hyR9-/exec"
   }
 }
