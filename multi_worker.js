@@ -257,12 +257,39 @@ async function scrapeIndividualProfile(page, businessName, city, state, category
 
         if (cleanFullAddress === "N/A" || !cleanFullAddress) return 0;
 
+        // 🛡️ STRICT CROSS-STATE GUARD: Filter out results from wrong state
+        const addressParts = cleanFullAddress.split(',').map(p => p.trim());
+        let detectedCity = city;
+        let detectedState = state;
+
+        if (addressParts.length >= 2) {
+            let stateIdx = addressParts.length - 1;
+            if (addressParts[stateIdx].toLowerCase() === "india" && addressParts.length >= 3) stateIdx--;
+            const statePart = addressParts[stateIdx];
+
+            // Reject if detected state name is clear and does NOT match expected target state
+            if (statePart && !statePart.toLowerCase().includes(state.toLowerCase()) && !state.toLowerCase().includes(statePart.toLowerCase())) {
+                console.log(`Rental Worker ${WORKER_ID} | 🛑 | SKIP | Business: ${businessName} | State Mismatch (${statePart} vs ${state})`);
+                return 0;
+            }
+            if (addressParts.length >= 3) {
+                detectedCity = addressParts[stateIdx - 1];
+            }
+            detectedState = state; // Guaranteed exact target state!
+        }
+
         const urlCoords = page.url().match(/!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/) || page.url().match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
         let latitude = urlCoords ? parseFloat(urlCoords[1]) : 0;
         let longitude = urlCoords ? parseFloat(urlCoords[2]) : 0;
 
         let portfolio = await extractPortfolio(page);
         if (portfolio.length === 0) { await page.waitForTimeout(2000); portfolio = await extractPortfolio(page); }
+
+        // 🛡️ STRICT QUALITY CHECK: MUST HAVE AT LEAST 1 PORTFOLIO PHOTO
+        if (!portfolio || portfolio.length === 0 || !portfolio[0]) {
+            console.log(`Rental Worker ${WORKER_ID} | 🛑 | SKIP | Business: ${businessName} | Reason: No Portfolio Photo Found`);
+            return 0;
+        }
 
         const provider = {
             id: `rental_${cleanPhone}`,
@@ -271,13 +298,51 @@ async function scrapeIndividualProfile(page, businessName, city, state, category
             subcategory: subcategory,
             experienceYears: 4,
             serviceMode: "Local",
-            city: city, locality: city, state: state,
-            startingPrice: 0, priceUnit: "Per Day",
-            whatsappNumber: cleanPhone, callNumber: cleanPhone,
-            aboutDescription: `Professional ${subcategory} equipment available for rent in ${city}. Quality equipment guaranteed by verified local owners.`,
-            isApproved: true, isVerified: false, rating: 0.0,
-            profilePhotoUrl: portfolio[0] ? portfolio[0].split('=')[0] + '=w500-h500-k-no' : "",
-            recommendationCount: 0, portfolioUrls: portfolio,
+            city: detectedCity,
+            locality: detectedCity,
+            state: detectedState,
+            startingPrice: 0,
+            priceUnit: "Per Day",
+            whatsappNumber: cleanPhone,
+            callNumber: cleanPhone,
+            aboutDescription: `Professional ${subcategory} equipment available for rent in ${detectedCity}. Quality equipment guaranteed by verified local owners.`,
+            isApproved: true,
+            isVerified: false,
+            rating: 0.0,
+            profilePhotoUrl: portfolio[0].split('=')[0] + '=w500-h500-k-no',
+            recommendationCount: 0,
+            portfolioUrls: portfolio,
+            searchKeywords: [businessName, detectedCity, subcategory, detectedState],
+            lastSeen: Date.now(),
+            callCount: 0,
+            fullAddress: cleanFullAddress,
+            isNumberHidden: false,
+            referredBy: "RENTAL_SCRAPER",
+            referralBonusPaid: false,
+            fcmToken: "",
+            notificationsEnabled: true,
+            latitude: latitude,
+            longitude: longitude
+        };
+
+        // 🚀 STRICT DATA INTEGRITY CHECK
+        const requiredFields = ['businessName', 'whatsappNumber', 'city', 'state', 'latitude', 'longitude', 'profilePhotoUrl'];
+        const missingFields = requiredFields.filter(f => !provider[f] || provider[f] === 0 || provider[f] === "0");
+
+        if (missingFields.length > 0) {
+            console.log(`Rental Worker ${WORKER_ID} | 🛑 | REJECT | Business: ${businessName} | Missing fields (${missingFields.join(', ')})`);
+            return 0;
+        }
+
+        firestoreBuffer.push(provider); sheetBuffer.push(provider);
+
+        if (sheetBuffer.length >= BATCH_LIMIT || firestoreBuffer.length >= BATCH_LIMIT) await flushBuffers();
+        const finalPhone = cleanPhone.replace(/[^0-9]/g, '').slice(-10);
+        console.log(`Rental Worker ${WORKER_ID} | 🎉 | ADDED RENTAL | ${businessName} | Phone: ${finalPhone} (Total: ${++newLeadsCount})`);
+        registry.add(cleanPhone);
+        return 1;
+    } catch (err) { return 0; }
+}
             searchKeywords: [businessName, city, subcategory, state],
             lastSeen: Date.now(), callCount: 0, fullAddress: cleanFullAddress,
             isNumberHidden: false, referredBy: "RENTAL_SCRAPER", referralBonusPaid: false, fcmToken: "",

@@ -96,16 +96,31 @@ function doPost(e) {
 function routeToSatellite(ss, data) {
   var items = data.providers || data.updates || [data];
   var stateGroups = {};
-  items.forEach(function(item) { var s = item.state || data.state || "Maharashtra"; if (!stateGroups[s]) stateGroups[s] = []; stateGroups[s].push(item); });
+  items.forEach(function(item) {
+    var s = item.state || data.state;
+    if (s && s !== "" && s !== "null" && s !== "undefined") {
+      if (!stateGroups[s]) stateGroups[s] = [];
+      stateGroups[s].push(item);
+    }
+  });
   var results = [];
   var stateConfigs = fetchStateUrls(ss);
   Object.keys(stateGroups).forEach(function(state) {
     var satelliteUrl = stateConfigs[state];
     if (satelliteUrl) {
       var payload = { type: data.type };
-      if (data.providers) payload.providers = stateGroups[state]; else if (data.updates) payload.updates = stateGroups[state]; else payload.updates = stateGroups[state];
+      if (data.providers) payload.providers = stateGroups[state];
+      else if (data.updates) payload.updates = stateGroups[state];
+      else payload.updates = stateGroups[state];
       var options = { 'method': 'post', 'contentType': 'application/json', 'payload': JSON.stringify(payload), 'muteHttpExceptions': true };
-      try { var response = UrlFetchApp.fetch(satelliteUrl, options); results.push(state + ": " + response.getContentText()); } catch (e) { results.push(state + ": Fail - " + e.toString()); }
+      try {
+        var response = UrlFetchApp.fetch(satelliteUrl, options);
+        results.push(state + ": " + response.getContentText());
+      } catch (e) {
+        results.push(state + ": Fail - " + e.toString());
+      }
+    } else {
+      results.push(state + ": Unmapped State (No Satellite URL)");
     }
   });
   return ContentService.createTextOutput(results.join(" | "));
