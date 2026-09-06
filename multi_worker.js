@@ -16,7 +16,7 @@ const TOTAL_WORKERS = args[1] !== undefined ? parseInt(args[1]) : 1;
 const RENTAL_HUB_URL = "https://script.google.com/macros/s/AKfycbwyVByXtm5VYsEPOBrGEMYaI8LhYk9ZHq77BaPwruZIKGn9E-ewVhkta-IYf3k7jfhLjA/exec";
 const SYNC_FIRESTORE_ENABLED = false;
 const SYNC_SHEET_ENABLED = true;
-const HEADLESS = false; // 🚀 Opens visible browser on laptop!
+const HEADLESS = process.env.CI ? true : false; // 🚀 Headless on GitHub Actions, visible browser on Laptop!
 const COOL_DOWN_MS = 1000;
 const MAX_SESSION_TIME_MS = 330 * 60 * 1000; // 🚀 5.5 Hours Marathon Run!
 const START_TIMESTAMP = Date.now();
