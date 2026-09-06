@@ -2,41 +2,105 @@ name: RudraSpark Rental Autonomous Scraper Engine
 
 on:
   schedule:
-    - cron: '0 */6 * * *'  # Runs every 6 hours
-  workflow_dispatch:        # Manual trigger
+    - cron: '*/30 * * * *'
+  workflow_dispatch: 
+
+concurrency:
+  group: rudraspark-rental-scraper
+  cancel-in-progress: false 
+
+permissions:
+  contents: write
+  actions: write
 
 jobs:
   scrape:
+    name: Rental Worker ${{ matrix.worker_id }}
     runs-on: ubuntu-latest
+    timeout-minutes: 350
     strategy:
       fail-fast: false
       matrix:
-        worker_id: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+        worker_id: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14] # 🚀 15 PARALLEL WORKERS!
 
     steps:
-      - name: Checkout Codebase
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js Environment
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: '20'
           cache: 'npm'
 
-      - name: Install Project Dependencies
-        run: npm ci
-
-      - name: Install Playwright Chromium Browser
-        run: npx playwright install --with-deps chromium
-
-      - name: Execute Rental Worker ${{ matrix.worker_id }}
-        run: node multi_worker.js ${{ matrix.worker_id }} 15
-
-      - name: Commit and Push Updated Registry & Progress
+      - name: Install Dependencies
         run: |
+          npm install
+          npx playwright install chromium --with-deps
+
+      - name: Setup Virtual Display (Xvfb)
+        run: |
+          sudo apt-get install -y xvfb
+          Xvfb :99 -screen 0 1280x1024x24 &
+          echo "DISPLAY=:99" >> $GITHUB_ENV
+
+      - name: Run Rental Scraper
+        env:
+          DISPLAY: :99
+          HEADLESS: "false"
+        run: |
+          set +e 
+          START_TIME=$(date +%s)
+          while true; do
+            CURRENT_TIME=$(date +%s)
+            ELAPSED=$((CURRENT_TIME - START_TIME))
+            
+            if [ $ELAPSED -gt 19800 ]; then
+              echo "🏁 Session complete."
+              break
+            fi
+
+            echo "🚀 Starting Rental Worker ${{ matrix.worker_id }} (Elapsed: ${ELAPSED}s)..."
+            node multi_worker.js ${{ matrix.worker_id }} 15
+            
+            EXIT_CODE=$?
+            if [ $EXIT_CODE -eq 0 ]; then
+              echo "✅ All work for this city/category finished."
+              break
+            else
+              echo "⚠️ Scraper crashed (Code $EXIT_CODE). Restarting in 15s..."
+              sleep 15
+            fi
+          done
+
+      - name: Commit and Push Progress
+        if: always() 
+        run: |
+          SLEEP_TIME=$(( ( RANDOM % 240 )  + 60 ))
+          echo "🚦 Waiting ${SLEEP_TIME} seconds before Git Sync..."
+          sleep ${SLEEP_TIME}
+
           git config --global user.name "RudraSpark-Rental-Bot"
           git config --global user.email "bot@rudraspark.app"
-          git add registry_W*.txt progress_W*.json || true
-          git commit -m "Worker ${{ matrix.worker_id }} update [skip ci]" || exit 0
-          git pull --rebase origin main || true
-          git push origin main
+          
+          git add -A 'progress_W*.json' 2>/dev/null || true
+          git add -A 'registry_W*.txt' 2>/dev/null || true
+          git add -A 'backup_leads_W*.json' 2>/dev/null || true
+          git add -A 'failed_sync_W*.json' 2>/dev/null || true
+          git add -A 'discovered_W*.json' 2>/dev/null || true
+          
+          git commit -m "Worker ${{ matrix.worker_id }} update [skip ci]" || echo "Nothing new"
+          
+          git checkout -- .
+          
+          for i in {1..50}; do
+            git fetch origin main
+            if git pull --rebase --autostash -X ours origin main; then
+              if git push origin main; then
+                echo "✅ Pushed successfully!"
+                break
+              fi
+            fi
+            git rebase --abort || true
+            sleep 15
+          done
