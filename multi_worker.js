@@ -343,21 +343,6 @@ async function scrapeIndividualProfile(page, businessName, city, state, category
         return 1;
     } catch (err) { return 0; }
 }
-            searchKeywords: [businessName, city, subcategory, state],
-            lastSeen: Date.now(), callCount: 0, fullAddress: cleanFullAddress,
-            isNumberHidden: false, referredBy: "RENTAL_SCRAPER", referralBonusPaid: false, fcmToken: "",
-            notificationsEnabled: true, latitude: latitude, longitude: longitude
-        };
-
-        firestoreBuffer.push(provider); sheetBuffer.push(provider);
-
-        if (sheetBuffer.length >= BATCH_LIMIT || firestoreBuffer.length >= BATCH_LIMIT) await flushBuffers();
-        const finalPhone = cleanPhone.replace(/[^0-9]/g, '').slice(-10);
-        console.log(`Rental Worker ${WORKER_ID} | 🎉 | ADDED RENTAL | ${businessName} | Phone: ${finalPhone} (Total: ${++newLeadsCount})`);
-        registry.add(cleanPhone);
-        return 1;
-    } catch (err) { return 0; }
-}
 
 async function scrapeCombination(page, city, state, categoryId, subcategory) {
     if (isStopping || page.isClosed()) return 0;
