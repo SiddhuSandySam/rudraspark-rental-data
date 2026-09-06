@@ -13,10 +13,10 @@ const args = process.argv.slice(2);
 const WORKER_ID = args[0] !== undefined ? parseInt(args[0]) : 0;
 const TOTAL_WORKERS = args[1] !== undefined ? parseInt(args[1]) : 1;
 
-const RENTAL_HUB_URL = "https://script.google.com/macros/s/AKfycbwyVByXtm5VYsEPOBrGEMYaI8LhYk9ZHq77BaPwruZIKGn9E-ewVhkta-IYf3k7jfhLjA/exec";
+const MAIN_HUB_URL = "https://script.google.com/macros/s/AKfycbwyVByXtm5VYsEPOBrGEMYaI8LhYk9ZHq77BaPwruZIKGn9E-ewVhkta-IYf3k7jfhLjA/exec";
 const SYNC_FIRESTORE_ENABLED = false;
 const SYNC_SHEET_ENABLED = true;
-const HEADLESS = process.env.CI ? true : false; // 🚀 Headless on GitHub Actions, visible browser on Laptop!
+const HEADLESS = process.env.CI ? true : false;
 const COOL_DOWN_MS = 1000;
 const MAX_SESSION_TIME_MS = 330 * 60 * 1000; // 🚀 5.5 Hours Marathon Run!
 const START_TIMESTAMP = Date.now();
@@ -31,7 +31,7 @@ const SERVICE_ACCOUNT_FILE = path.join(__dirname, 'serviceAccountKey.json');
 
 // --- STARTUP HEADER ---
 console.log("\n===============================================");
-console.log(`   RUDRASPARK RENTAL WORKER ${WORKER_ID} | VERSION: V1.0 | DATA-ARMOR-HYBRID`);
+console.log(`   RUDRASPARK RENTAL WORKER ${WORKER_ID} | VERSION: V78 | DATA-ARMOR-HYBRID`);
 console.log("===============================================\n");
 
 // INITIALIZE FIREBASE (OPTIONAL)
@@ -40,21 +40,46 @@ if (fs.existsSync(SERVICE_ACCOUNT_FILE)) {
     const serviceAccount = JSON.parse(fs.readFileSync(SERVICE_ACCOUNT_FILE));
     if (getApps().length === 0) initializeApp({ credential: cert(serviceAccount) });
     db = getFirestore();
-    console.log(`Rental Worker ${WORKER_ID} | INFO | Firebase Initialized.`);
+    console.log(`Worker ${WORKER_ID} | INFO | Firebase Initialized.`);
 }
 
 // GLOBAL STATE
 let config = JSON.parse(fs.readFileSync(CONFIG_FILE));
 let stateUrls = {};
-let currentTargetUrl = RENTAL_HUB_URL;
+let currentTargetUrl = MAIN_HUB_URL;
 let lastFullSyncTime = 0;
+
+// Initialize SQLite registry
+registry.migrateFromJson();
 
 let progress = { stateIndex: 0, cityIndex: 0, categoryIndex: 0, subcategoryIndex: 0, lastRegistrySync: 0 };
 
 async function loadProgress() {
     if (fs.existsSync(PROGRESS_FILE)) {
         progress = JSON.parse(fs.readFileSync(PROGRESS_FILE));
-        console.log(`Rental Worker ${WORKER_ID} | INFO | Local Progress Loaded.`);
+        console.log(`Worker ${WORKER_ID} | INFO | Local Progress Loaded.`);
+    }
+    if (db) {
+        try {
+            const doc = await db.collection('metadata').doc(`progress_W${WORKER_ID}`).get();
+            if (doc.exists) {
+                const cloudProgress = doc.data();
+                const isCloudAhead = cloudProgress.stateIndex > progress.stateIndex ||
+                    (cloudProgress.stateIndex === progress.stateIndex && cloudProgress.categoryIndex > progress.categoryIndex) ||
+                    (cloudProgress.stateIndex === progress.stateIndex && cloudProgress.categoryIndex === progress.categoryIndex && cloudProgress.cityIndex > progress.cityIndex);
+
+                if (isCloudAhead) {
+                    console.log(`Worker ${WORKER_ID} | INFO | 🚀 Cloud Progress JUMP:`);
+                    console.log(`   FROM: [State:${progress.stateIndex}, Cat:${progress.categoryIndex}, City:${progress.cityIndex}]`);
+                    console.log(`   TO  : [State:${cloudProgress.stateIndex}, Cat:${cloudProgress.categoryIndex}, City:${cloudProgress.cityIndex}]`);
+                    progress = cloudProgress;
+                } else {
+                    console.log(`Worker ${WORKER_ID} | INFO | Firebase Progress synced (Local is already at or ahead).`);
+                }
+            }
+        } catch (e) {
+            console.warn(`Worker ${WORKER_ID} | WARN | Could not fetch cloud progress: ${e.message}`);
+        }
     }
 }
 
@@ -62,10 +87,13 @@ let sheetBuffer = [];
 let firestoreBuffer = [];
 let isFlushing = false;
 let newLeadsCount = 0;
-const BATCH_LIMIT = 50;
+const BATCH_LIMIT = 150;
 
 async function saveProgress() {
     fs.writeFileSync(PROGRESS_FILE, JSON.stringify(progress, null, 2));
+    if (db) {
+        await db.collection('metadata').doc(`progress_W${WORKER_ID}`).set(progress).catch(() => {});
+    }
 }
 
 async function flushBuffers(isExiting = false) {
@@ -79,7 +107,7 @@ async function flushBuffers(isExiting = false) {
     try {
         // 1. Firestore Sync
         if (firestoreBuffer.length > 0 && db && SYNC_FIRESTORE_ENABLED) {
-            console.log(`Rental Worker ${WORKER_ID} | [${mode}] | Firestore: Saving ${firestoreBuffer.length} rental leads...`);
+            console.log(`Worker ${WORKER_ID} | [${mode}] | Firestore: Saving ${firestoreBuffer.length} leads...`);
             const leads = [...firestoreBuffer];
             try {
                 for (let i = 0; i < leads.length; i += 50) {
@@ -92,10 +120,10 @@ async function flushBuffers(isExiting = false) {
                     });
                     await batch.commit();
                 }
-                console.log(`Rental Worker ${WORKER_ID} | [SYNC] | ✅ Firestore: Success. Saved ${leads.length} rental leads.`);
+                console.log(`Worker ${WORKER_ID} | [SYNC] | ✅ Firestore: Success. Saved ${leads.length} leads.`);
                 firestoreBuffer = firestoreBuffer.filter(p => !leads.includes(p));
             } catch (e) {
-                console.error(`Rental Worker ${WORKER_ID} | [SYNC] | ❌ Firestore Failed: ${e.message}. Retrying in next cycle...`);
+                console.error(`Worker ${WORKER_ID} | [SYNC] | ❌ Firestore Failed: ${e.message}. Retrying in next cycle...`);
             }
         }
 
@@ -114,18 +142,18 @@ async function flushBuffers(isExiting = false) {
                 const targetUrl = stateUrls[stateName] || currentTargetUrl;
 
                 const leadNames = leadsToSync.map(l => l.businessName || l.id).join(", ");
-                console.log(`Rental Worker ${WORKER_ID} | [${mode}] | 🚀 Routing ${leadsToSync.length} rental leads to [${stateName}] Sheet...`);
-                console.log(`Rental Worker ${WORKER_ID} | [DATA] | Leads: [${leadNames}]`);
+                console.log(`Worker ${WORKER_ID} | [${mode}] | 🚀 Routing ${leadsToSync.length} leads to [${stateName}] Sheet...`);
+                console.log(`Worker ${WORKER_ID} | [DATA] | Leads: [${leadNames}]`);
 
                 let retryAttempt = 0;
+                const MAX_RETRIES = 10;
                 let stateSuccess = false;
 
-                // 🚀 INFINITE RETRY UNTIL GOOGLE SHEET CONFIRMS SUCCESS
-                while (!stateSuccess) {
+                while (retryAttempt < MAX_RETRIES && !stateSuccess) {
                     retryAttempt++;
                     if (retryAttempt > 1) {
-                        const waitTime = Math.min(15000 * retryAttempt, 60000);
-                        console.log(`Rental Worker ${WORKER_ID} | ⏳ Retry ${retryAttempt} for [${stateName}] in ${waitTime/1000}s...`);
+                        const waitTime = Math.min(30000 * retryAttempt, 120000);
+                        console.log(`Worker ${WORKER_ID} | ⏳ Retry ${retryAttempt}/${MAX_RETRIES} in ${waitTime/1000}s...`);
                         await new Promise(r => setTimeout(r, waitTime));
                     }
 
@@ -133,15 +161,15 @@ async function flushBuffers(isExiting = false) {
                         const response = await axios.post(targetUrl, { type: "BATCH_PROVIDER_SYNC", providers: leadsToSync }, { timeout: 240000 });
                         const resData = String(response.data);
 
-                        if (resData.includes("Success") || resData.includes("Complete") || resData.includes("already exists")) {
-                            console.log(`Rental Worker ${WORKER_ID} | [${mode}] | ✅ [${stateName}] Sync Success for: [${leadNames}]`);
+                        if (resData.includes("Success") || resData.includes("Complete")) {
+                            console.log(`Worker ${WORKER_ID} | [${mode}] | ✅ [${stateName}] Sync Success for: [${leadNames}]`);
                             stateSuccess = true;
                         } else {
                             const logData = resData.length > 100 ? resData.substring(0, 100) + "..." : resData;
-                            console.warn(`Rental Worker ${WORKER_ID} | [${mode}] | ⚠️ [${stateName}] Server Response: ${logData}. Retrying...`);
+                            console.warn(`Worker ${WORKER_ID} | [${mode}] | ⚠️ [${stateName}] Server Response: ${logData}`);
                         }
                     } catch (e) {
-                        console.error(`Rental Worker ${WORKER_ID} | [${mode}] | ❌ [${stateName}] Sync Error: ${e.message}. Retrying...`);
+                        console.error(`Worker ${WORKER_ID} | [${mode}] | ❌ [${stateName}] Sync Error: ${e.message}`);
                     }
                 }
                 if (!stateSuccess) overallSuccess = false;
@@ -151,11 +179,11 @@ async function flushBuffers(isExiting = false) {
                 sheetBuffer = [];
                 if (fs.existsSync(BACKUP_LEADS_FILE)) {
                     fs.unlinkSync(BACKUP_LEADS_FILE);
-                    console.log(`Rental Worker ${WORKER_ID} | [${mode}] | 🧹 Success! Local backup [${path.basename(BACKUP_LEADS_FILE)}] deleted.`);
+                    console.log(`Worker ${WORKER_ID} | [${mode}] | 🧹 Success! Local backup [${path.basename(BACKUP_LEADS_FILE)}] deleted.`);
                 }
                 if (fs.existsSync(FAILED_SYNC_FILE)) fs.unlinkSync(FAILED_SYNC_FILE);
             } else {
-                console.error(`Rental Worker ${WORKER_ID} | [${mode}] | 🛑 Sync Failed after retries. Backup kept for safety.`);
+                console.error(`Worker ${WORKER_ID} | [${mode}] | 🛑 Sync Failed after all retries. Backup kept for safety.`);
             }
         }
     } finally { isFlushing = false; }
@@ -168,7 +196,7 @@ async function syncFromSatellite(targetUrl) {
         const response = await axios.get(`${cleanUrl}?type=get_ids`, { timeout: 90000 });
         if (Array.isArray(response.data)) {
             registry.addBatch(response.data);
-            console.log(`Rental Worker ${WORKER_ID} | [SYNC] | ✅ Registry Updated.`);
+            console.log(`Worker ${WORKER_ID} | [SYNC] | ✅ Registry Updated.`);
             lastFullSyncTime = Date.now();
         }
     } catch (e) {}
@@ -178,26 +206,26 @@ let isStopping = false;
 async function gracefulShutdown(isError = false) {
     if (isStopping) return;
     isStopping = true;
-    console.log(`\nRental Worker ${WORKER_ID} | [EXIT] | 🛑 Shutdown initiated. Securing data...`);
+    console.log(`\nWorker ${WORKER_ID} | [EXIT] | 🛑 Shutdown initiated. Securing data...`);
 
     if (sheetBuffer.length > 0 || firestoreBuffer.length > 0) {
         try {
             const combinedLeads = [...new Set([...sheetBuffer, ...firestoreBuffer])];
             fs.writeFileSync(FAILED_SYNC_FILE, JSON.stringify(combinedLeads, null, 2));
-            console.log(`Rental Worker ${WORKER_ID} | [EXIT] | 📦 Emergency backup created (${combinedLeads.length} leads).`);
+            console.log(`Worker ${WORKER_ID} | [EXIT] | 📦 Emergency backup created (${combinedLeads.length} leads).`);
         } catch (e) {
-            console.error(`Rental Worker ${WORKER_ID} | [EXIT] | Backup Failed: ${e.message}`);
+            console.error(`Worker ${WORKER_ID} | [EXIT] | Backup Failed: ${e.message}`);
         }
     }
 
     try {
         await flushBuffers(true);
-        console.log(`Rental Worker ${WORKER_ID} | [EXIT] | 🏁 FINAL SYNC COMPLETED.`);
+        console.log(`Worker ${WORKER_ID} | [EXIT] | 🏁 FINAL SYNC COMPLETED.`);
 
         if (fs.existsSync(FAILED_SYNC_FILE)) fs.unlinkSync(FAILED_SYNC_FILE);
         if (fs.existsSync(BACKUP_LEADS_FILE)) fs.unlinkSync(BACKUP_LEADS_FILE);
     } catch (e) {
-        console.error(`Rental Worker ${WORKER_ID} | [EXIT] | Final sync failed, keeping local backup.`);
+        console.error(`Worker ${WORKER_ID} | [EXIT] | Final sync failed, keeping local backup.`);
     } finally {
         await saveProgress();
         process.exit(isError ? 1 : 0);
@@ -209,7 +237,7 @@ process.on('SIGTERM', () => gracefulShutdown(false));
 
 async function extractPortfolio(page) {
     try {
-        console.log(`Rental Worker ${WORKER_ID} | 📸 | Extracting Portfolio...`);
+        console.log(`Worker ${WORKER_ID} | 📸 | Extracting Portfolio (V198 - ANTI-PROFILE FIX)...`);
         if (page.isClosed()) return [];
 
         const photoBtn = await page.$('button[data-value="Photos"], button[aria-label*="Photo"], button[aria-label*="फ़ोटो"], .m67q60 button');
@@ -299,11 +327,11 @@ async function extractPortfolio(page) {
             await page.waitForTimeout(1000);
         }
 
-        console.log(`Rental Worker ${WORKER_ID} | 📸 | Result: ${portfolio.length} images. First 2 URLs:`);
+        console.log(`Worker ${WORKER_ID} | 📸 | Result: ${portfolio.length} images. First 2 URLs:`);
         portfolio.slice(0, 2).forEach((url, i) => console.log(`   [${i+1}] ${url}`));
 
         return portfolio;
-    } catch (e) { console.log(`Rental Worker ${WORKER_ID} | ⚠️ | Portfolio Error: ${e.message}`); return []; }
+    } catch (e) { console.log(`Worker ${WORKER_ID} | ⚠️ | Portfolio Error: ${e.message}`); return []; }
 }
 
 async function scrapeIndividualProfile(page, businessName, city, state, categoryId, subcategory) {
@@ -311,7 +339,7 @@ async function scrapeIndividualProfile(page, businessName, city, state, category
         const mapsTitle = await page.$eval('h1.DUwDvf', el => el.innerText).catch(() => "");
         if (mapsTitle && !mapsTitle.toLowerCase().includes(businessName.toLowerCase().substring(0, 4)) &&
             !businessName.toLowerCase().includes(mapsTitle.toLowerCase().substring(0, 4))) {
-            console.log(`Rental Worker ${WORKER_ID} | [🛑] | SKIP | Title Mismatch. Maps: ${mapsTitle} vs List: ${businessName}`);
+            console.log(`Worker ${WORKER_ID} | [🛑] | SKIP | Title Mismatch. Maps: ${mapsTitle} vs List: ${businessName}`);
             return 0;
         }
 
@@ -321,7 +349,7 @@ async function scrapeIndividualProfile(page, businessName, city, state, category
 
         const firstDigit = cleanPhone[0];
         if (!cleanPhone || cleanPhone.length < 10 || !['6', '7', '8', '9'].includes(firstDigit)) {
-            console.log(`Rental Worker ${WORKER_ID} | [🛑] | SKIP | Business: ${businessName} | Reason: Invalid/Junk Phone (${cleanPhone})`);
+            console.log(`Worker ${WORKER_ID} | [🛑] | SKIP | Business: ${businessName} | Reason: Invalid/Junk Phone (${cleanPhone})`);
             return 0;
         }
 
@@ -334,9 +362,13 @@ async function scrapeIndividualProfile(page, businessName, city, state, category
         const cleanFullAddress = fullAddress.replace('\n', '').replace('', '').trim();
 
         if (cleanFullAddress === "N/A" || !cleanFullAddress) {
-            console.log(`Rental Worker ${WORKER_ID} | [🛑] | SKIP | Business: ${businessName} | Reason: No Address Found`);
+            console.log(`Worker ${WORKER_ID} | [🛑] | SKIP | Business: ${businessName} | Reason: No Address Found`);
             return 0;
         }
+
+        const urlCoords = page.url().match(/!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/) || page.url().match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
+        let latitude = urlCoords ? parseFloat(urlCoords[1]) : 0;
+        let longitude = urlCoords ? parseFloat(urlCoords[2]) : 0;
 
         const addressParts = cleanFullAddress.split(',').map(p => p.trim());
         let detectedCity = city;
@@ -349,22 +381,82 @@ async function scrapeIndividualProfile(page, businessName, city, state, category
             const statePart = addressParts[stateIdx];
 
             if (!statePart.toLowerCase().includes(state.toLowerCase())) {
-                console.log(`Rental Worker ${WORKER_ID} | [🛑] | SKIP | Business: ${businessName} | Reason: State Mismatch (Detected: ${statePart}, Expected: ${state})`);
+                console.log(`Worker ${WORKER_ID} | [🛑] | SKIP | Business: ${businessName} | Reason: State Mismatch (Detected: ${statePart}, Expected: ${state})`);
                 return 0;
             }
             detectedCity = addressParts[stateIdx - 1];
             detectedState = statePart;
-            detectedLocality = addressParts.length >= 4 ? addressParts[stateIdx - 2] : detectedCity;
-        }
 
-        const urlCoords = page.url().match(/!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/) || page.url().match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
-        let latitude = urlCoords ? parseFloat(urlCoords[1]) : 0;
-        let longitude = urlCoords ? parseFloat(urlCoords[2]) : 0;
+            const JUNK_KEYWORDS = [
+                'building', 'shop', 'floor', 'plot', 'opp', 'near', 'room', 'flat', 'house', 'no', 'number', 'block',
+                'phase', 'lane', 'industrial', 'highway', 'road', 'rd', 'marg', 'st', 'station', 'bus stop', 'society',
+                'apt', 'apartment', 'villa', 'tower', 'beside', 'behind', 'temple', 'hospital', 'school', 'church',
+                'masjid', 'gate', 'mall', 'market', 'complex', 'center', 'centre', 'chowk', 'circle', 'bypass', 'yard',
+                'ward', 'street', 'gali', 'sector', 'khasra'
+            ];
+
+            let foundLocality = "";
+            for (let i = stateIdx - 2; i >= 0; i--) {
+                const part = addressParts[i].trim();
+                const partLower = part.toLowerCase();
+
+                const isPlusCode = part.includes('+');
+                const isJunkCode = /^[0-9\-\/\&\s\.\#]+$/.test(part) ||
+                                 (part.length <= 5 && /[0-9]/.test(part)) ||
+                                 (partLower.includes('&') && part.length <= 10);
+
+                const hasJunkWords = JUNK_KEYWORDS.some(k => partLower.includes(k));
+
+                if (!isPlusCode && !isJunkCode && !hasJunkWords && part.length > 2) {
+                    foundLocality = part;
+                    break;
+                }
+            }
+            detectedLocality = foundLocality || detectedCity;
+
+            try {
+                for (let offset = 1; offset <= 4; offset++) {
+                    const idx = stateIdx - offset;
+                    if (idx < 0) break;
+
+                    const rawName = addressParts[idx].trim();
+                    const nameLower = rawName.toLowerCase();
+
+                    const isPlusCode = rawName.includes('+');
+                    const isJunkCode = /^[0-9\-\/\&\s\.\#]+$/.test(rawName) || (rawName.length <= 5 && /[0-9]/.test(rawName));
+                    const hasJunkWords = JUNK_KEYWORDS.some(k => nameLower.includes(k));
+
+                    if (!isPlusCode && !isJunkCode && !hasJunkWords && rawName.length > 2) {
+                        const cleanName = rawName.replace(/[0-9]/g, '').replace(/[\+\#\-\/\&]/g, '').trim();
+                        if (cleanName.length < 3) continue;
+
+                        const isExisting = config.states.some(s =>
+                            s.name.toLowerCase().includes(state.toLowerCase()) &&
+                            s.cities.some(c => c.toLowerCase() === cleanName.toLowerCase())
+                        );
+
+                        if (!isExisting) {
+                            console.log(`Worker ${WORKER_ID} | DISCOVERY | 💡 NEW AREA: [${cleanName}] in [${state}]`);
+                            const discoveryFile = path.join(__dirname, `discovered_W${WORKER_ID}.json`);
+                            let discoveries = {};
+                            if (fs.existsSync(discoveryFile)) {
+                                try { discoveries = JSON.parse(fs.readFileSync(discoveryFile)); } catch (e) { discoveries = {}; }
+                            }
+                            const key = `${state}|${cleanName}`;
+                            discoveries[key] = (discoveries[key] || 0) + 1;
+                            fs.writeFileSync(discoveryFile, JSON.stringify(discoveries, null, 2));
+                        }
+                    }
+                }
+            } catch (e) {
+                console.error(`Worker ${WORKER_ID} | DISCOVERY | ❌ Error: ${e.message}`);
+            }
+        }
 
         const isLatValid = latitude > 6.0 && latitude < 38.5;
         const isLonValid = longitude > 68.0 && longitude < 98.5;
         if (!isLatValid || !isLonValid) {
-            console.log(`Rental Worker ${WORKER_ID} | [🛑] | SKIP | Business: ${businessName} | Reason: Ocean Coordinates (${latitude}, ${longitude})`);
+            console.log(`Worker ${WORKER_ID} | [🛑] | SKIP | Business: ${businessName} | Reason: Ocean Coordinates (Lat:${latitude}, Lon:${longitude})`);
             return 0;
         }
 
@@ -372,7 +464,7 @@ async function scrapeIndividualProfile(page, businessName, city, state, category
         if (portfolio.length === 0) { await page.waitForTimeout(3000); portfolio = await extractPortfolio(page); }
 
         if (!portfolio || portfolio.length === 0) {
-            console.log(`Rental Worker ${WORKER_ID} | [🛑] | SKIP | Business: ${businessName} | Reason: No Portfolio Images Found`);
+            console.log(`Worker ${WORKER_ID} | [🛑] | SKIP | Business: ${businessName} | Reason: No Portfolio Images Found`);
             return 0;
         }
 
@@ -397,28 +489,36 @@ async function scrapeIndividualProfile(page, businessName, city, state, category
         };
 
         const requiredFields = ['businessName', 'whatsappNumber', 'city', 'state', 'latitude', 'longitude', 'profilePhotoUrl'];
-        const missingFields = requiredFields.filter(f => !provider[f] || provider[f] === 0 || provider[f] === "0");
+        const missingFields = requiredFields.filter(field => !provider[field] || provider[field] === 0 || provider[field] === "0");
 
         if (missingFields.length > 0) {
-            console.log(`Rental Worker ${WORKER_ID} | [🛑] | REJECT | Business: ${businessName} | Reason: Missing fields (${missingFields.join(', ')})`);
+            console.log(`Worker ${WORKER_ID} | [🛑] | REJECT | Business: ${businessName} | Reason: Missing fields (${missingFields.join(', ')})`);
             return 0;
         }
 
-        if (SYNC_FIRESTORE_ENABLED && db) firestoreBuffer.push(provider);
-        if (SYNC_SHEET_ENABLED) sheetBuffer.push(provider);
+        if (provider.latitude === 0 || provider.longitude === 0) {
+            console.log(`Worker ${WORKER_ID} | [🛑] | REJECT | Business: ${businessName} | Reason: Invalid Coordinates (0,0)`);
+            return 0;
+        }
+
+        firestoreBuffer.push(provider); sheetBuffer.push(provider);
 
         try {
             let currentBackup = [];
             if (fs.existsSync(BACKUP_LEADS_FILE)) {
-                try { currentBackup = JSON.parse(fs.readFileSync(BACKUP_LEADS_FILE)); } catch (e) { currentBackup = []; }
+                try {
+                    currentBackup = JSON.parse(fs.readFileSync(BACKUP_LEADS_FILE));
+                } catch (e) { currentBackup = []; }
             }
             currentBackup.push(provider);
             fs.writeFileSync(BACKUP_LEADS_FILE, JSON.stringify(currentBackup, null, 2));
-        } catch (e) {}
+        } catch (e) {
+            console.error(`Worker ${WORKER_ID} | ⚠️ | Backup Write Fail: ${e.message}`);
+        }
 
         if (sheetBuffer.length >= BATCH_LIMIT || firestoreBuffer.length >= BATCH_LIMIT) await flushBuffers();
         const finalPhone = cleanPhone.replace(/[^0-9]/g, '').slice(-10);
-        console.log(`Rental Worker ${WORKER_ID} | 🎉 | ADDED | ${businessName} | Phone: ${finalPhone} (Total: ${++newLeadsCount})`);
+        console.log(`Worker ${WORKER_ID} | 🎉 | ADDED | ${businessName} | Phone: ${finalPhone} (Total: ${++newLeadsCount})`);
         registry.add(cleanPhone);
         return 1;
     } catch (err) { return 0; }
@@ -437,22 +537,22 @@ async function scrapeCombination(page, city, state, categoryId, subcategory) {
         ]);
 
         if (status === "EMPTY") {
-            console.log(`Rental Worker ${WORKER_ID} | [-] | No results for ${subcategory} in ${city}.`);
+            console.log(`Worker ${WORKER_ID} | [-] | No results for ${subcategory} in ${city}.`);
             return 0;
         }
 
         if (status === "TIMEOUT") {
-            console.log(`Rental Worker ${WORKER_ID} | [!] | Page Load Timeout for ${subcategory}. Skipping...`);
+            console.log(`Worker ${WORKER_ID} | [!] | Page Load Timeout for ${subcategory}. Skipping...`);
             return 0;
         }
 
         if (status === "SINGLE") {
             const name = await page.$eval('h1.DUwDvf', el => el.innerText).catch(() => "Unknown");
             if (name.trim().toLowerCase() === city.trim().toLowerCase() || name.trim().toLowerCase() === state.trim().toLowerCase()) {
-                console.log(`Rental Worker ${WORKER_ID} | [-] | City Map Pin (${name}) loaded for ${subcategory} in ${city}. No business found.`);
+                console.log(`Worker ${WORKER_ID} | [-] | City Map Pin (${name}) loaded for ${subcategory} in ${city}. No business found.`);
                 return 0;
             }
-            console.log(`Rental Worker ${WORKER_ID} | 🎯 | Direct Business Profile detected: ${name}`);
+            console.log(`Worker ${WORKER_ID} | 🎯 | Direct Business Profile detected: ${name}`);
             return await scrapeIndividualProfile(page, name, city, state, categoryId, subcategory);
         }
 
@@ -477,7 +577,7 @@ async function scrapeCombination(page, city, state, categoryId, subcategory) {
                 await listing.scrollIntoViewIfNeeded({ timeout: 3000 });
                 await listing.click({ force: true, timeout: 3000 });
             } catch (clickErr) {
-                console.log(`Rental Worker ${WORKER_ID} | ⏩ | SKIP | Unclickable/Detached listing element.`);
+                console.log(`Worker ${WORKER_ID} | ⏩ | SKIP | Unclickable/Detached listing element.`);
                 continue;
             }
 
@@ -497,65 +597,143 @@ async function scrapeCombination(page, city, state, categoryId, subcategory) {
                 streak++;
                 if (res && res.status === "DUPLICATE") {
                     const bName = res.businessName || nameRaw || "Unknown";
-                    console.log(`Rental Worker ${WORKER_ID} | ⏩ | SKIP | ${bName} | Phone: ${res.phone} | Duplicate (Streak: ${streak}/4)`);
+                    console.log(`Worker ${WORKER_ID} | ⏩ | SKIP | ${bName} | Phone: ${res.phone} | Duplicate (Streak: ${streak}/4)`);
                 } else {
-                    console.log(`Rental Worker ${WORKER_ID} | 🛑 | SKIP | ${nameRaw} | Invalid/Poor Quality (Streak: ${streak}/4)`);
+                    console.log(`Worker ${WORKER_ID} | 🛑 | SKIP | ${nameRaw} | Invalid/Poor Quality (Streak: ${streak}/4)`);
                 }
 
                 if (streak >= 4) {
-                    console.log(`Rental Worker ${WORKER_ID} | 🎯 | STREAK HIT | 4 consecutive duplicates/skips. Moving to next sub-category...`);
+                    console.log(`Worker ${WORKER_ID} | 🎯 | STREAK HIT | 4 consecutive duplicates/skips. Moving to next sub-category...`);
                     return foundCount;
                 }
             }
         }
         return foundCount;
     } catch (e) {
-        console.warn(`Rental Worker ${WORKER_ID} | ⚠️ | Scrape warning in ${city}: ${e.message}`);
-        return 0;
+        console.error(`Worker ${WORKER_ID} | [FATAL] | Scrape Error: ${e.message}`);
+        return -1;
     }
 }
 
 async function runOrchestrator() {
     if (WORKER_ID > 0) {
         const startupDelay = WORKER_ID * 60 * 1000;
-        console.log(`Rental Worker ${WORKER_ID} | STAGGER | Waiting ${WORKER_ID} minute(s) before initialization...`);
+        console.log(`Worker ${WORKER_ID} | STAGGER | Waiting ${WORKER_ID} minute(s) before initialization...`);
         await new Promise(r => setTimeout(r, startupDelay));
     }
 
     await loadProgress();
+
+    const recoveryFiles = [BACKUP_LEADS_FILE, FAILED_SYNC_FILE];
+    for (const file of recoveryFiles) {
+        if (!fs.existsSync(file)) continue;
+
+        let syncSuccess = false;
+        let attempt = 0;
+
+        try {
+            const failedLeads = JSON.parse(fs.readFileSync(file));
+            if (failedLeads.length === 0) { fs.unlinkSync(file); continue; }
+
+            console.log(`Worker ${WORKER_ID} | RECOVERY | Syncing ${failedLeads.length} leads from ${path.basename(file)}...`);
+
+            for (let i = 0; i < failedLeads.length; i += 50) {
+                const chunk = failedLeads.slice(i, i + 50);
+                let chunkSuccess = false;
+                let chunkAttempt = 0;
+
+                console.log(`Worker ${WORKER_ID} | RECOVERY | Batch ${Math.floor(i/50) + 1}/${Math.ceil(failedLeads.length/50)} | Sending ${chunk.length} leads...`);
+
+                while (!chunkSuccess) {
+                    chunkAttempt++;
+                    try {
+                        const response = await axios.post(MAIN_HUB_URL, { type: "BATCH_PROVIDER_SYNC", providers: chunk }, { timeout: 150000 });
+                        const resData = String(response.data);
+
+                        if (resData.includes("Success") || resData.includes("Complete") || resData.includes("already exists")) {
+                            console.log(`Worker ${WORKER_ID} | RECOVERY | ✅ Batch Success confirmed by Server.`);
+                            chunkSuccess = true;
+                        } else {
+                            console.warn(`Worker ${WORKER_ID} | RECOVERY | ⚠️ Server Busy (Attempt ${chunkAttempt}). Retrying until Success...`);
+                            await new Promise(r => setTimeout(r, 30000));
+                        }
+                    } catch (e) {
+                        console.error(`Worker ${WORKER_ID} | RECOVERY | ❌ Connection Error (Attempt ${chunkAttempt}): ${e.message}. Waiting for Server to recover...`);
+                        await new Promise(r => setTimeout(r, 60000));
+                    }
+                }
+            }
+
+            console.log(`Worker ${WORKER_ID} | RECOVERY | ✅ Restored data from ${path.basename(file)}.`);
+            if (fs.existsSync(file)) fs.unlinkSync(file);
+        } catch (e) {
+            console.error(`Worker ${WORKER_ID} | RECOVERY | ❌ Critical Recovery Fail: ${e.message}`);
+        }
+    }
 
     const browser = await chromium.launch({ headless: HEADLESS });
     const context = await browser.newContext({ userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36' });
     const page = await context.newPage();
 
     try {
-        console.log(`Rental Worker ${WORKER_ID} | INFO | Fetching Dynamic Config from Rental Hub Sheet...`);
-        const hubResp = await axios.get(`${RENTAL_HUB_URL}?type=config&nocache=true`, { timeout: 30000 });
-        if (hubResp.data && hubResp.data.config) {
-            if (hubResp.data.locations && hubResp.data.locations.length > 0) {
-                config.states = hubResp.data.locations;
-            }
-            if (hubResp.data.categories && hubResp.data.categories.length > 0) {
-                config.categories = hubResp.data.categories;
-            }
-            if (hubResp.data.stateUrls) {
-                stateUrls = hubResp.data.stateUrls;
-            }
-            console.log(`Rental Worker ${WORKER_ID} | INFO | Live Config Loaded from Hub! Active States: ${Object.keys(stateUrls).join(', ')}`);
-        }
-    } catch (e) {
-        console.warn(`Rental Worker ${WORKER_ID} | WARN | Could not fetch live config from Hub: ${e.message}. Using local config.json fallback.`);
-    }
+        const HUB_DATA_FILE = path.join(__dirname, 'hub_data.json');
+        const CDN_HUB_URL = "https://cdn.jsdelivr.net/gh/SiddhuSandySam/rudraspark-rental-data@main/hub_data.json";
+        let hubLoaded = false;
 
-    try {
+        if (fs.existsSync(HUB_DATA_FILE)) {
+            try {
+                const localHub = JSON.parse(fs.readFileSync(HUB_DATA_FILE));
+                if (localHub && localHub.stateUrls) {
+                    stateUrls = localHub.stateUrls;
+                    console.log(`Worker ${WORKER_ID} | INFO | Hub Data loaded from local hub_data.json.`);
+                    hubLoaded = true;
+                }
+            } catch (e) { console.error(`Worker ${WORKER_ID} | ⚠️ | Local Hub Read Fail: ${e.message}`); }
+        }
+
+        if (!hubLoaded) {
+            try {
+                console.log(`Worker ${WORKER_ID} | INFO | Fetching Hub Data from jsDelivr CDN...`);
+                const cdnResp = await axios.get(`${CDN_HUB_URL}?cb=${Date.now()}`, { timeout: 30000 });
+                if (cdnResp.data && cdnResp.data.stateUrls) {
+                    stateUrls = cdnResp.data.stateUrls;
+                    hubLoaded = true;
+                    console.log(`Worker ${WORKER_ID} | INFO | Hub Data loaded from CDN.`);
+                }
+            } catch (e) { console.warn(`Worker ${WORKER_ID} | ⚠️ | CDN Hub Fetch Fail: ${e.message}`); }
+        }
+
+        if (!hubLoaded) {
+            for (let retry = 1; retry <= 5; retry++) {
+                try {
+                    console.log(`Worker ${WORKER_ID} | INFO | Fetching Routing Table from API (Attempt ${retry}/5)...`);
+                    const hubResp = await axios.get(`${MAIN_HUB_URL}?type=app_data&nocache=true`, { timeout: 30000 });
+                    if (hubResp.data && hubResp.data.stateUrls) {
+                        stateUrls = hubResp.data.stateUrls;
+                        hubLoaded = true;
+                        break;
+                    }
+                } catch (e) {
+                    console.error(`Worker ${WORKER_ID} | ⚠️ | API Hub Fetch Failed: ${e.message}. Retrying in 10s...`);
+                    await new Promise(r => setTimeout(r, 10000));
+                }
+            }
+        }
+
+        if (!hubLoaded) {
+            console.error(`Worker ${WORKER_ID} | [FATAL] | Could not load Hub Data after all attempts.`);
+            await gracefulShutdown(true); return;
+        }
+
         for (let sIdx = progress.stateIndex; sIdx < config.states.length; sIdx++) {
             if (sheetBuffer.length > 0 || firestoreBuffer.length > 0) {
-                console.log(`Rental Worker ${WORKER_ID} | INFO | Finalizing previous state data before transition...`);
+                console.log(`Worker ${WORKER_ID} | INFO | Finalizing previous state data before transition...`);
                 await flushBuffers();
             }
 
             const state = config.states[sIdx]; progress.stateIndex = sIdx;
-            currentTargetUrl = stateUrls[state.name] || RENTAL_HUB_URL;
+            currentTargetUrl = stateUrls[state.name];
+            if (!currentTargetUrl) continue;
 
             await syncFromSatellite(currentTargetUrl);
 
@@ -564,40 +742,41 @@ async function runOrchestrator() {
                 if (catIdx % TOTAL_WORKERS !== WORKER_ID) { progress.cityIndex = 0; continue; }
 
                 const category = config.categories[catIdx]; progress.categoryIndex = catIdx;
-                console.log(`\nRental Worker ${WORKER_ID} | [CAT START] | 📂 Starting Category ${catIdx + 1}/${config.categories.length}: ${category.name}\n`);
-
+                console.log(`\nWorker ${WORKER_ID} | [CAT START] | 📂 Starting Category ${catIdx + 1}/${config.categories.length}: ${category.name}\n`);
                 for (let cIdx = progress.cityIndex; cIdx < cities.length; cIdx++) {
                     const city = cities[cIdx]; progress.cityIndex = cIdx;
-                    console.log(`Rental Worker ${WORKER_ID} | [CITY START] | 🏙️ Entering City: ${city} (City ${cIdx + 1}/${cities.length})`);
+                    console.log(`Worker ${WORKER_ID} | [CITY START] | 🏙️ Entering City: ${city} (City ${cIdx + 1}/${cities.length})`);
 
                     for (let subIdx = progress.subcategoryIndex; subIdx < category.sub.length; subIdx++) {
                         if (isStopping) break;
 
                         if (Date.now() - START_TIMESTAMP > MAX_SESSION_TIME_MS) {
-                            console.log(`\nRental Worker ${WORKER_ID} | [TIMER] | Session limit reached. Syncing and restarting...`);
+                            console.log(`\nWorker ${WORKER_ID} | [TIMER] | Session limit reached. Syncing and restarting...`);
                             await gracefulShutdown(false); return;
                         }
 
                         const subcategory = category.sub[subIdx]; progress.subcategoryIndex = subIdx;
 
                         const wait = Math.floor(Math.random() * 10000) + 10000;
-                        console.log(`\nRental Worker ${WORKER_ID} | WAIT | Resting for ${wait/1000}s...`);
+                        console.log(`\nWorker ${WORKER_ID} | WAIT | Resting for ${wait/1000}s...`);
                         await page.waitForTimeout(wait);
 
-                        console.log(`Rental Worker ${WORKER_ID} | SCAN | Sub-cat ${subIdx + 1}/${category.sub.length} | ${subcategory} in ${city}`);
-                        await scrapeCombination(page, city, state.name, category.id, subcategory);
-                        console.log(`Rental Worker ${WORKER_ID} | [FINISH] | Done with Sub-cat ${subIdx + 1}/${category.sub.length} (${subcategory}).`);
+                        console.log(`Worker ${WORKER_ID} | SCAN | Sub-cat ${subIdx + 1}/${category.sub.length} | ${subcategory} in ${city}`);
+                        const res = await scrapeCombination(page, city, state.name, category.id, subcategory);
+                        if (res === -1) { await gracefulShutdown(true); return; }
 
+                        console.log(`Worker ${WORKER_ID} | [FINISH] | Done with Sub-cat ${subIdx + 1}/${category.sub.length} (${subcategory}).`);
                         await saveProgress();
                     }
                     if (isStopping) break;
-                    console.log(`\nRental Worker ${WORKER_ID} | [CITY COMPLETED] | 🏙️ Done with City ${cIdx + 1}/${cities.length} (${city}). Moving next...\n`);
+                    console.log(`\nWorker ${WORKER_ID} | [CITY COMPLETED] | 🏙️ Done with City ${cIdx + 1}/${cities.length} (${city}). Moving next...\n`);
 
                     if (sheetBuffer.length > 0 || firestoreBuffer.length > 0) await flushBuffers();
+
                     progress.subcategoryIndex = 0;
                 }
                 if (isStopping) break;
-                console.log(`\nRental Worker ${WORKER_ID} | [CAT COMPLETED] | 📂 Finished Category ${catIdx + 1}/${config.categories.length} (${category.name}). Switching next...\n`);
+                console.log(`\nWorker ${WORKER_ID} | [CAT COMPLETED] | 📂 Finished Category ${catIdx + 1}/${config.categories.length} (${category.name}). Switching next...\n`);
                 progress.cityIndex = 0;
             }
             if (isStopping) break;
@@ -605,7 +784,7 @@ async function runOrchestrator() {
         }
 
         console.log(`\n===============================================`);
-        console.log(`🏁 RENTAL MISSION ACCOMPLISHED: ALL STATES COMPLETED!`);
+        console.log(`🏁 MISSION ACCOMPLISHED: ALL STATES COMPLETED!`);
         console.log(`===============================================\n`);
 
         progress.stateIndex = config.states.length;
@@ -617,7 +796,7 @@ async function runOrchestrator() {
         await gracefulShutdown(false);
 
     } catch (fatal) {
-        console.error(`Rental Worker ${WORKER_ID} | [FATAL] | Loop Error: ${fatal.message}`);
+        console.error(`Worker ${WORKER_ID} | [FATAL] | Loop Error: ${fatal.message}`);
         await gracefulShutdown(true);
     }
 }
