@@ -232,7 +232,7 @@
         "Safety Net Rent",
         "Temporary Fencing Rent"
       ],
-      "isTop": false,
+      "isTop": true,
       "sortOrder": 7
     },
     {
@@ -264,7 +264,7 @@
         "Handbag Rent",
         "Footwear Rent"
       ],
-      "isTop": false,
+      "isTop": true,
       "sortOrder": 8
     },
     {
