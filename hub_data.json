@@ -7,7 +7,7 @@
     {
       "id": "cat_camera_rent",
       "name": "Camera & Studio Gear",
-      "icon": "ic_cat_camera",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_camera_rent.png?raw=true",
       "sub": [
         "DSLR Camera Rent",
         "Mirrorless Camera Rent",
@@ -44,7 +44,7 @@
     {
       "id": "cat_event_rent",
       "name": "Sound & Event Equipment",
-      "icon": "ic_cat_sound",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_event_rent.png?raw=true",
       "sub": [
         "DJ Sound Rent",
         "PA System Rent",
@@ -80,7 +80,7 @@
     {
       "id": "cat_event_infrastructure_rent",
       "name": "Event Infrastructure & Setup",
-      "icon": "ic_cat_event_infrastructure",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_event_infrastructure_rent.png?raw=true",
       "sub": [
         "Event Stage Rent",
         "Portable Stage Rent",
@@ -112,7 +112,7 @@
     {
       "id": "cat_tools_rent",
       "name": "Power Tools & Machinery",
-      "icon": "ic_cat_tools",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_tools_rent.png?raw=true",
       "sub": [
         "Drill Machine Rent",
         "Rotary Hammer Rent",
@@ -147,7 +147,7 @@
     {
       "id": "cat_handtools_rent",
       "name": "Hand Tools & Workshop Equipment",
-      "icon": "ic_cat_handtools",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_handtools_rent.png?raw=true",
       "sub": [
         "Hand Tool Kit Rent",
         "Socket Set Rent",
@@ -179,7 +179,7 @@
     {
       "id": "cat_construction_rent",
       "name": "Construction & Heavy Machinery",
-      "icon": "ic_cat_construction",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_construction_rent.png?raw=true",
       "sub": [
         "JCB Rent",
         "Excavator Rent",
@@ -213,7 +213,7 @@
     {
       "id": "cat_scaffolding_rent",
       "name": "Scaffolding & Shuttering",
-      "icon": "ic_cat_scaffolding",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_scaffolding_rent.png?raw=true",
       "sub": [
         "Scaffolding Rent",
         "Adjustable Scaffolding Rent",
@@ -238,7 +238,7 @@
     {
       "id": "cat_costumes_rent",
       "name": "Wedding & Costume Rent",
-      "icon": "ic_cat_costume",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_costumes_rent.png?raw=true",
       "sub": [
         "Sherwani Rent",
         "Bridal Lehenga Rent",
@@ -270,7 +270,7 @@
     {
       "id": "cat_furniture_rent",
       "name": "Furniture & Home Items",
-      "icon": "ic_cat_furniture",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_furniture_rent.png?raw=true",
       "sub": [
         "Sofa Rent",
         "Sofa Set Rent",
@@ -304,7 +304,7 @@
     {
       "id": "cat_appliance_rent",
       "name": "Home Appliances",
-      "icon": "ic_cat_appliance",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_appliance_rent.png?raw=true",
       "sub": [
         "Air Conditioner Rent",
         "Air Cooler Rent",
@@ -336,7 +336,7 @@
     {
       "id": "cat_electronics_rent",
       "name": "Electronics & Gadgets",
-      "icon": "ic_cat_electronics",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_electronics_rent.png?raw=true",
       "sub": [
         "Laptop Rent",
         "Desktop Rent",
@@ -367,7 +367,7 @@
     {
       "id": "cat_it_rent",
       "name": "IT & Networking Equipment",
-      "icon": "ic_cat_it",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_it_rent.png?raw=true",
       "sub": [
         "Computer Server Rent",
         "Server Rack Rent",
@@ -397,7 +397,7 @@
     {
       "id": "cat_medical_rent",
       "name": "Medical & Healthcare Equipment",
-      "icon": "ic_cat_medical",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_medical_rent.png?raw=true",
       "sub": [
         "Wheelchair Rent",
         "Electric Wheelchair Rent",
@@ -429,7 +429,7 @@
     {
       "id": "cat_baby_rent",
       "name": "Baby & Kids Equipment",
-      "icon": "ic_cat_baby",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_baby_rent.png?raw=true",
       "sub": [
         "Baby Stroller Rent",
         "Baby Pram Rent",
@@ -456,7 +456,7 @@
     {
       "id": "cat_vehicles_rent",
       "name": "Vehicles & Transport",
-      "icon": "ic_cat_vehicle",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_vehicles_rent.png?raw=true",
       "sub": [
         "Self Drive Car Rent",
         "Hatchback Car Rent",
@@ -487,7 +487,7 @@
     {
       "id": "cat_automotive_rent",
       "name": "Automotive & Vehicle Equipment",
-      "icon": "ic_cat_automotive",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_automotive_rent.png?raw=true",
       "sub": [
         "Car Jack Rent",
         "Hydraulic Jack Rent",
@@ -514,7 +514,7 @@
     {
       "id": "cat_agriculture_rent",
       "name": "Agriculture & Farming Equipment",
-      "icon": "ic_cat_agriculture",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_agriculture_rent.png?raw=true",
       "sub": [
         "Tractor Rent",
         "Rotavator Rent",
@@ -546,7 +546,7 @@
     {
       "id": "cat_industrial_rent",
       "name": "Industrial Equipment",
-      "icon": "ic_cat_industrial",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_industrial_rent.png?raw=true",
       "sub": [
         "Industrial Generator Rent",
         "Industrial Compressor Rent",
@@ -575,7 +575,7 @@
     {
       "id": "cat_power_rent",
       "name": "Power & Electrical Equipment",
-      "icon": "ic_cat_power",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_power_rent.png?raw=true",
       "sub": [
         "Generator Rent",
         "Portable Generator Rent",
@@ -601,7 +601,7 @@
     {
       "id": "cat_catering_rent",
       "name": "Food & Catering Equipment",
-      "icon": "ic_cat_food",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_catering_rent.png?raw=true",
       "sub": [
         "Gas Stove Rent",
         "Commercial Stove Rent",
@@ -629,7 +629,7 @@
     {
       "id": "cat_party_rent",
       "name": "Party & Decoration Items",
-      "icon": "ic_cat_party",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_party_rent.png?raw=true",
       "sub": [
         "Birthday Decoration Items Rent",
         "Balloon Decoration Items Rent",
@@ -654,7 +654,7 @@
     {
       "id": "cat_wedding_rent",
       "name": "Wedding & Ceremony Equipment",
-      "icon": "ic_cat_wedding",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_wedding_rent.png?raw=true",
       "sub": [
         "Wedding Mandap Rent",
         "Wedding Stage Rent",
@@ -680,7 +680,7 @@
     {
       "id": "cat_sports_rent",
       "name": "Sports & Fitness Equipment",
-      "icon": "ic_cat_sports",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_sports_rent.png?raw=true",
       "sub": [
         "Treadmill Rent",
         "Exercise Bike Rent",
@@ -711,7 +711,7 @@
     {
       "id": "cat_adventure_rent",
       "name": "Adventure & Camping Gear",
-      "icon": "ic_cat_adventure",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_adventure_rent.png?raw=true",
       "sub": [
         "Tent Rent",
         "Sleeping Bag Rent",
@@ -739,7 +739,7 @@
     {
       "id": "cat_travel_rent",
       "name": "Travel & Luggage",
-      "icon": "ic_cat_travel",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_travel_rent.png?raw=true",
       "sub": [
         "Travel Bag Rent",
         "Suitcase Rent",
@@ -760,7 +760,7 @@
     {
       "id": "cat_music_rent",
       "name": "Musical Instruments",
-      "icon": "ic_cat_music",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_music_rent.png?raw=true",
       "sub": [
         "Guitar Rent",
         "Electric Guitar Rent",
@@ -787,7 +787,7 @@
     {
       "id": "cat_film_rent",
       "name": "Film & Production Equipment",
-      "icon": "ic_cat_film",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_film_rent.png?raw=true",
       "sub": [
         "Cinema Camera Rent",
         "Camera Kit Rent",
@@ -815,7 +815,7 @@
     {
       "id": "cat_exhibition_rent",
       "name": "Exhibition & Stall Equipment",
-      "icon": "ic_cat_exhibition",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_exhibition_rent.png?raw=true",
       "sub": [
         "Exhibition Stall Rent",
         "Display Counter Rent",
@@ -839,7 +839,7 @@
     {
       "id": "cat_office_rent",
       "name": "Office & Corporate Equipment",
-      "icon": "ic_cat_office",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_office_rent.png?raw=true",
       "sub": [
         "Office Desk Rent",
         "Office Chair Rent",
@@ -866,7 +866,7 @@
     {
       "id": "cat_retail_rent",
       "name": "Retail & Shop Equipment",
-      "icon": "ic_cat_retail",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_retail_rent.png?raw=true",
       "sub": [
         "Display Rack Rent",
         "Shop Counter Rent",
@@ -890,7 +890,7 @@
     {
       "id": "cat_security_rent",
       "name": "Security & Safety Equipment",
-      "icon": "ic_cat_security",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_security_rent.png?raw=true",
       "sub": [
         "CCTV Camera Rent",
         "CCTV DVR Rent",
@@ -916,7 +916,7 @@
     {
       "id": "cat_cleaning_rent",
       "name": "Cleaning & Maintenance Equipment",
-      "icon": "ic_cat_cleaning",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_cleaning_rent.png?raw=true",
       "sub": [
         "Vacuum Cleaner Rent",
         "Industrial Vacuum Rent",
@@ -939,7 +939,7 @@
     {
       "id": "cat_garden_rent",
       "name": "Garden & Landscaping Equipment",
-      "icon": "ic_cat_garden",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_garden_rent.png?raw=true",
       "sub": [
         "Lawn Mower Rent",
         "Grass Cutter Rent",
@@ -963,7 +963,7 @@
     {
       "id": "cat_water_rent",
       "name": "Water & Pump Equipment",
-      "icon": "ic_cat_water",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_water_rent.png?raw=true",
       "sub": [
         "Water Pump Rent",
         "Submersible Pump Rent",
@@ -984,7 +984,7 @@
     {
       "id": "cat_entertainment_rent",
       "name": "Entertainment & Gaming",
-      "icon": "ic_cat_entertainment",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_entertainment_rent.png?raw=true",
       "sub": [
         "PlayStation Rent",
         "Xbox Rent",
@@ -1010,7 +1010,7 @@
     {
       "id": "cat_education_rent",
       "name": "Education & Learning Equipment",
-      "icon": "ic_cat_education",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_education_rent.png?raw=true",
       "sub": [
         "Books Rent",
         "Competitive Exam Books Rent",
@@ -1033,7 +1033,7 @@
     {
       "id": "cat_art_rent",
       "name": "Art & Creative Equipment",
-      "icon": "ic_cat_art",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_art_rent.png?raw=true",
       "sub": [
         "Easel Rent",
         "Drawing Tablet Rent",
@@ -1054,7 +1054,7 @@
     {
       "id": "cat_fashion_rent",
       "name": "Fashion & Accessories",
-      "icon": "ic_cat_fashion",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_fashion_rent.png?raw=true",
       "sub": [
         "Designer Saree Rent",
         "Party Wear Dress Rent",
@@ -1079,7 +1079,7 @@
     {
       "id": "cat_pet_rent",
       "name": "Pet & Animal Equipment",
-      "icon": "ic_cat_pet",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_pet_rent.png?raw=true",
       "sub": [
         "Pet Carrier Rent",
         "Pet Cage Rent",
@@ -1100,7 +1100,7 @@
     {
       "id": "cat_realestate_rent",
       "name": "Space & Property Rental",
-      "icon": "ic_cat_property",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_realestate_rent.png?raw=true",
       "sub": [
         "Room Rent",
         "Guest Room Rent",
@@ -1129,7 +1129,7 @@
     {
       "id": "cat_storage_rent",
       "name": "Storage & Moving Equipment",
-      "icon": "ic_cat_storage",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_storage_rent.png?raw=true",
       "sub": [
         "Storage Box Rent",
         "Plastic Crate Rent",
@@ -1151,7 +1151,7 @@
     {
       "id": "cat_utility_rent",
       "name": "Utility & Emergency Equipment",
-      "icon": "ic_cat_utility",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_utility_rent.png?raw=true",
       "sub": [
         "Emergency Generator Rent",
         "Inverter Rent",
@@ -1172,7 +1172,7 @@
     {
       "id": "cat_safety_rent",
       "name": "Safety & Rescue Equipment",
-      "icon": "ic_cat_safety",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_safety_rent.png?raw=true",
       "sub": [
         "Fire Extinguisher Rent",
         "Fire Alarm Equipment Rent",
@@ -1196,7 +1196,7 @@
     {
       "id": "cat_medical_event_rent",
       "name": "Medical Event & First Aid Equipment",
-      "icon": "ic_cat_medical_event",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_medical_event_rent.png?raw=true",
       "sub": [
         "First Aid Kit Rent",
         "Emergency Medical Kit Rent",
@@ -1215,7 +1215,7 @@
     {
       "id": "cat_transport_equipment_rent",
       "name": "Transport & Logistics Equipment",
-      "icon": "ic_cat_transport",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_transport_equipment_rent.png?raw=true",
       "sub": [
         "Hand Trolley Rent",
         "Platform Trolley Rent",
@@ -1237,7 +1237,7 @@
     {
       "id": "cat_communication_rent",
       "name": "Communication Equipment",
-      "icon": "ic_cat_communication",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_communication_rent.png?raw=true",
       "sub": [
         "Walkie Talkie Rent",
         "Two Way Radio Rent",
@@ -1255,7 +1255,7 @@
     {
       "id": "cat_renewable_rent",
       "name": "Solar & Renewable Energy Equipment",
-      "icon": "ic_cat_solar",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_renewable_rent.png?raw=true",
       "sub": [
         "Solar Panel Rent",
         "Solar Inverter Rent",
@@ -1272,7 +1272,7 @@
     {
       "id": "cat_pool_rent",
       "name": "Pool & Water Recreation Equipment",
-      "icon": "ic_cat_pool",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_pool_rent.png?raw=true",
       "sub": [
         "Swimming Pool Equipment Rent",
         "Pool Pump Rent",
@@ -1290,7 +1290,7 @@
     {
       "id": "cat_religious_rent",
       "name": "Ceremony & Religious Equipment",
-      "icon": "ic_cat_religious",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_religious_rent.png?raw=true",
       "sub": [
         "Mandap Rent",
         "Prayer Hall Equipment Rent",
@@ -1311,7 +1311,7 @@
     {
       "id": "cat_misc_rent",
       "name": "Other Rental Items",
-      "icon": "ic_cat_misc",
+      "icon": "https://github.com/SiddhuSandySam/rudraspark-rental-data/blob/main/assets/cat_misc_rent.png?raw=true",
       "sub": [
         "General Equipment Rent",
         "Household Items Rent",
@@ -1323,6 +1323,27 @@
       ],
       "isTop": false,
       "sortOrder": 50
+    },
+    {
+      "id": "cat_marine_rent",
+      "name": "Marine & Water Sports",
+      "icon": "",
+      "sub": [
+        "Jet Ski Rent",
+        "Boat Rent",
+        "Speed Boat Rent",
+        "Kayak Rent",
+        "Canoe Rent",
+        "Paddle Board Rent",
+        "Surfboard Rent",
+        "Fishing Boat Rent",
+        "Diving Equipment Rent",
+        "Snorkeling Equipment Rent",
+        "Life Jacket Rent",
+        "Water Sports Equipment Rent"
+      ],
+      "isTop": false,
+      "sortOrder": 51
     }
   ],
   "locations": [
@@ -2064,7 +2085,11 @@
         "Sindhi Bazar",
         "Dumartara",
         "Kududand",
-        "LIG"
+        "LIG",
+        "Tagore Nagar",
+        "Krishna Nagar",
+        "Kelabedi",
+        "Brij Vihar Nagar"
       ]
     },
     {
@@ -2298,7 +2323,9 @@
         "Dhunkali",
         "Indira Nagar",
         "Kujra Velem Bhat",
-        "Pedda"
+        "Pedda",
+        "Ghateshwar Nagar",
+        "Porba Vaddo"
       ]
     },
     {
@@ -2868,7 +2895,23 @@
         "Tolnaka",
         "Ghogha Cir",
         "Khanpur",
-        "Shreyas Colony"
+        "Shreyas Colony",
+        "Karadva Gam",
+        "Moficer Jin Compound",
+        "Kaliawadi",
+        "Dhamdachi",
+        "Karvad",
+        "Prabhas Patan",
+        "Ganeshpura",
+        "Rod",
+        "India Colony",
+        "Virat Nagar",
+        "Rajnagar",
+        "Ekta Nagar",
+        "Uttamnagar",
+        "Rambagh",
+        "Laddak",
+        "Bhaijipura"
       ]
     },
     {
@@ -2948,7 +2991,13 @@
         "Budanpur",
         "Old DLF Colony",
         "Sarhol",
-        "Naya Bazar"
+        "Naya Bazar",
+        "Wazirabad",
+        "Ballabhgarh",
+        "Sanjay Gandhi Memorial Nagar",
+        "Ram Nagar",
+        "Rani Talab",
+        "Aggarwal Colony"
       ]
     },
     {
@@ -4539,8 +4588,15 @@
       ]
     }
   ],
+  "trending": [
+    "Mirrorless Camera Rent",
+    "Drone Camera Rent"
+  ],
   "stateUrls": {
     "Maharashtra": "https://script.google.com/macros/s/AKfycbwuyK4piN5jnYG1WOxIo_xua5BRcORroGHi-6EI04ycI_T-ALlP5eP83lZvN_InpWkyaw/exec",
-    "Andhra Pradesh": "https://script.google.com/macros/s/AKfycbwZrW8eEGqgMf02kRgeFPXTAlUZ1uYp5gKflAozZTyGGTQRp9FG-lFkQwgPul-hyR9-/exec"
+    "Andhra Pradesh": "https://script.google.com/macros/s/AKfycbwZrW8eEGqgMf02kRgeFPXTAlUZ1uYp5gKflAozZTyGGTQRp9FG-lFkQwgPul-hyR9-/exec",
+    "Arunachal Pradesh": "https://script.google.com/macros/s/AKfycbw1-W90Euz7dparQFpvUzVo_oL3F8F4v6sY_OOlpTS6evk50v6TQY5XZfvTOOztJNzI/exec",
+    "Assam": "https://script.google.com/macros/s/AKfycbx8EfixhtEWlGkvTtYxDq2sYwGRIth0mIoRaJi_MAMFH1YxXHQCJOjDT2vvlUHH9fcz/exec",
+    "Bihar": "https://script.google.com/macros/s/AKfycbxwoWDt0dYgEskZMQ_WIqO5dHmOzb36iRFq0uD238ZgEhjt2U47qhirFzRL8V4G_lL0/exec"
   }
 }
