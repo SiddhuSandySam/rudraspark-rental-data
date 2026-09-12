@@ -770,7 +770,15 @@
         "RishabhNagar and Pawan Vihar Colony",
         "Rajiv Vihar Colony",
         "Irrigation Colony",
-        "Berla"
+        "Berla",
+        "Mominpara",
+        "Gayatri Nagar",
+        "Urkura",
+        "Baijnathpara",
+        "Hikmipara",
+        "Dharampura",
+        "Rajeev Nagar",
+        "Rawabhata"
       ]
     },
     {
@@ -1019,7 +1027,12 @@
         "Xeldem",
         "Electricity Colony",
         "Bazar Peth",
-        "Shiroda"
+        "Shiroda",
+        "Holy Cross Colony",
+        "Sabnis Valley",
+        "Kerant",
+        "Butica",
+        "Tiska"
       ]
     },
     {
@@ -1680,7 +1693,32 @@
         "Mahadev",
         "Shyam Nagar",
         "Jala Ram Nagar",
-        "above HDFC Bank"
+        "above HDFC Bank",
+        "Sanidhya",
+        "Dudheshwar",
+        "Navsari Bazaar",
+        "Parle Point",
+        "Morabhagal",
+        "Sherpura",
+        "Panjarapole",
+        "Saiyedwadi",
+        "Honey Park Area",
+        "Udhana GIDC",
+        "Sadguru Nagar",
+        "Muj Mahuda",
+        "Soudagar Park",
+        "Sampatrao Colony",
+        "Madhav Nagar",
+        "Railway Colony",
+        "Shrinath BungalowsI",
+        "Vidyutnagar Colony",
+        "IOC Nagar",
+        "Vishnu Colony",
+        "Piplag",
+        "Meldinagar",
+        "Indian Park",
+        "Yogi Nagar Twp",
+        "Shrinand Nagar"
       ]
     },
     {
@@ -1818,7 +1856,33 @@
         "Kanmajra",
         "Mandi Dabwali",
         "Huda Colony",
-        "Ateli Mandi"
+        "Ateli Mandi",
+        "Badshahpur",
+        "South City I",
+        "Sikanderpur",
+        "Chakkarpur",
+        "Saraswati Vihar",
+        "Rajiv Nagar",
+        "Haryana",
+        "New Model Town",
+        "New",
+        "Shakti Nagar",
+        "Old Town",
+        "Defence Colony",
+        "Preet Nagar",
+        "Gangwa",
+        "Azad Nagar",
+        "DLF Colony",
+        "DSS",
+        "Sarojini Colony",
+        "Vishwakarma Mohalla",
+        "Surya Nagar",
+        "HSIIDC",
+        "Sohna Rural",
+        "Firozpur Jhirka",
+        "Delhi",
+        "Abdullapur",
+        "Agrasain Colony"
       ]
     },
     {
@@ -2578,7 +2642,8 @@
         "Jatni",
         "Pipili",
         "Konark",
-        "Nimapara"
+        "Nimapara",
+        "Kataka"
       ]
     },
     {
