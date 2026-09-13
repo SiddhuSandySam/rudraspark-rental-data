@@ -2125,7 +2125,16 @@
         "Hikmipara",
         "Dharampura",
         "Rajeev Nagar",
-        "Rawabhata"
+        "Rawabhata",
+        "Old Sarkanda",
+        "Mandir Hasaud",
+        "Chhotapara",
+        "Pushpak Nagar",
+        "Maitrinagar",
+        "Nayaganj",
+        "Budhwari Bazar",
+        "Nagar Nigam Colony",
+        "Durga Nagar"
       ]
     },
     {
@@ -2379,7 +2388,11 @@
         "Sabnis Valley",
         "Kerant",
         "Butica",
-        "Tiska"
+        "Tiska",
+        "Oshal",
+        "Gude",
+        "Marna",
+        "Borim"
       ]
     },
     {
@@ -3065,7 +3078,34 @@
         "Meldinagar",
         "Indian Park",
         "Yogi Nagar Twp",
-        "Shrinand Nagar"
+        "Shrinand Nagar",
+        "Ayojan Nagar",
+        "Shahpur",
+        "Metoda",
+        "Vithalwadi",
+        "Maktampur",
+        "Hifazat Nagar",
+        "Saktasanala",
+        "Chikhodra",
+        "Hamidi Moholla",
+        "Tirupati Nagar",
+        "Rehmat Nagar",
+        "Choksi Wadi",
+        "New Dindoli",
+        "Salvav",
+        "Somnath Nagar",
+        "Vinayak Nagar",
+        "Diyodar",
+        "Moti Palace Twp",
+        "Rajodpura",
+        "Ganesh Colony",
+        "Gamdi",
+        "Rani Baug",
+        "Jampura",
+        "Happy Nagar",
+        "Gunjan",
+        "New Porbandar",
+        "Jasraj Nagar"
       ]
     },
     {
@@ -3229,7 +3269,17 @@
         "Firozpur Jhirka",
         "Delhi",
         "Abdullapur",
-        "Agrasain Colony"
+        "Agrasain Colony",
+        "VPO",
+        "Durga Nagar",
+        "Tehsil",
+        "Mahesh Nagar",
+        "Jagdish Colony",
+        "Employees Colony",
+        "Mohan Nagar",
+        "Pipli",
+        "Nahar Colony",
+        "Narwana Rural"
       ]
     },
     {
@@ -3296,7 +3346,9 @@
         "Ram Nagar",
         "Bhojpur",
         "Rampur Bushahr",
-        "Aleo"
+        "Aleo",
+        "Kasumpti",
+        "Galore"
       ]
     },
     {
@@ -3353,7 +3405,8 @@
         "Upper Bazar",
         "Bariatu",
         "Ahirtoli",
-        "Doranda"
+        "Doranda",
+        "Kanka"
       ]
     },
     {
@@ -3990,7 +4043,9 @@
         "Pipili",
         "Konark",
         "Nimapara",
-        "Kataka"
+        "Kataka",
+        "Brahmapur",
+        "Chatrapur"
       ]
     },
     {
@@ -4840,6 +4895,15 @@
     "Andhra Pradesh": "https://script.google.com/macros/s/AKfycbwZrW8eEGqgMf02kRgeFPXTAlUZ1uYp5gKflAozZTyGGTQRp9FG-lFkQwgPul-hyR9-/exec",
     "Arunachal Pradesh": "https://script.google.com/macros/s/AKfycbw1-W90Euz7dparQFpvUzVo_oL3F8F4v6sY_OOlpTS6evk50v6TQY5XZfvTOOztJNzI/exec",
     "Assam": "https://script.google.com/macros/s/AKfycbx8EfixhtEWlGkvTtYxDq2sYwGRIth0mIoRaJi_MAMFH1YxXHQCJOjDT2vvlUHH9fcz/exec",
-    "Bihar": "https://script.google.com/macros/s/AKfycbxwoWDt0dYgEskZMQ_WIqO5dHmOzb36iRFq0uD238ZgEhjt2U47qhirFzRL8V4G_lL0/exec"
+    "Bihar": "https://script.google.com/macros/s/AKfycbxwoWDt0dYgEskZMQ_WIqO5dHmOzb36iRFq0uD238ZgEhjt2U47qhirFzRL8V4G_lL0/exec",
+    "Chhattisgarh": "https://script.google.com/macros/s/AKfycbwSLWkCUEDOtO3JgQMcwzHMw933jib2DLvmMIM06YimYTZIgz_hmObZ4Tq-5pbGI808jA/exec",
+    "Goa": "https://script.google.com/macros/s/AKfycby-6FalOjbDax83iUBy6kdOsNXrT0N6qXocHcYBKeEp2TS7shTPaMoYaoWOTZ1dumEg3g/exec",
+    "Gujarat": "https://script.google.com/macros/s/AKfycbw-9L9HRGNO230vAajvtDqq0SqWiknmWX-L_kitapXkrj05EDV4uZLIPkmjSRH8txK_dw/exec",
+    "Haryana": "https://script.google.com/macros/s/AKfycbxgNgqZOk22A8cTH4GQfXTzpTcyrEqvK78KgQsMwfVLgGJV0IycdmXlWmee9Z-3Ctt05g/exec",
+    "Himachal Pradesh": "https://script.google.com/macros/s/AKfycbyAAvyl1f6CGvi6IO-Cbts1xBixU9EXGTPWoeGoAhk_qWEMkxZ087ui6nLzRN9jHP57jg/exec",
+    "Jharkhand": "https://script.google.com/macros/s/AKfycbzuFXFoqxV2M6NLpupfoCnYJfSvOBlBXvn0GXQpiY4y6Vo3cRIv7yZsnm-7HX7gvIdKWQ/exec",
+    "Karnataka": "https://script.google.com/macros/s/AKfycbzPDE4y7eRmaGq9dazBlovnilx7fVMHNk3U8KQM6ZTSv8b_818Jwm96BJ2I_uCJ-sn0Ig/exec",
+    "Kerala": "https://script.google.com/macros/s/AKfycbxJDu7GNfMi5k0ayo0q3wSCWNDzbz4SFmj8sfHEHbkLAEFnAVUlC9JnBAmiFL7zhZy4vQ/exec",
+    "Madhya Pradesh": "https://script.google.com/macros/s/AKfycbyD7s5bUcTMwG5Iig_cq4HTkzUEDPRbRmjBJS-QOSXPxBb8EcGPo_VyNxRVmC9_UbGU/exec"
   }
 }
