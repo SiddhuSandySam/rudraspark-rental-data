@@ -2134,7 +2134,10 @@
         "Nayaganj",
         "Budhwari Bazar",
         "Nagar Nigam Colony",
-        "Durga Nagar"
+        "Durga Nagar",
+        "Kripal Nagar",
+        "Badhai Para",
+        "Ashwani Nagar"
       ]
     },
     {
@@ -2392,7 +2395,8 @@
         "Oshal",
         "Gude",
         "Marna",
-        "Borim"
+        "Borim",
+        "Dattawadi"
       ]
     },
     {
@@ -3105,7 +3109,28 @@
         "Happy Nagar",
         "Gunjan",
         "New Porbandar",
-        "Jasraj Nagar"
+        "Jasraj Nagar",
+        "Lalbaug",
+        "Sahkar Nagar",
+        "Samta",
+        "Krishnadham Tenement",
+        "Tulsivan",
+        "TGB",
+        "Asarwa",
+        "Bhav Nagar",
+        "Piplikampa",
+        "Idar",
+        "Gulbai Tekra",
+        "Lambha",
+        "New Maninagar",
+        "Old GIDC",
+        "Soma Talav",
+        "South",
+        "Yakutpura",
+        "Pragatinagar",
+        "Hansapur",
+        "Navjivan Bazaar",
+        "Limbdi"
       ]
     },
     {
@@ -3279,7 +3304,15 @@
         "Mohan Nagar",
         "Pipli",
         "Nahar Colony",
-        "Narwana Rural"
+        "Narwana Rural",
+        "Gurgaon Rural",
+        "Shivaji Nagar",
+        "Sainik Colony",
+        "Khanna Colony",
+        "Vishnu Nagar",
+        "Prem Colony",
+        "Gobind Pura",
+        "Akberpur"
       ]
     },
     {
@@ -3348,7 +3381,12 @@
         "Rampur Bushahr",
         "Aleo",
         "Kasumpti",
-        "Galore"
+        "Galore",
+        "Anu",
+        "Ramkundi",
+        "Prini",
+        "Sosan",
+        "Moti Tiba"
       ]
     },
     {
@@ -3406,7 +3444,10 @@
         "Bariatu",
         "Ahirtoli",
         "Doranda",
-        "Kanka"
+        "Kanka",
+        "Kokar",
+        "Kadru",
+        "Kumhartoli"
       ]
     },
     {
