@@ -2400,7 +2400,9 @@
         "Swatantra Path",
         "Upper Bazar",
         "Tisk",
-        "Aldeia de Goa"
+        "Aldeia de Goa",
+        "Green Valley",
+        "Baga Beach"
       ]
     },
     {
@@ -3150,7 +3152,24 @@
         "Chotila",
         "Kamlabagh",
         "Jasdan",
-        "Govindwadi"
+        "Govindwadi",
+        "Narotam Nagar",
+        "Parvat Gam",
+        "Godadara Gam",
+        "Nehru Park",
+        "ShahEAlam Roja",
+        "Por",
+        "Alif Nagar",
+        "KadiChhatral Hwy",
+        "Chikuvadi",
+        "Abc Cir",
+        "Kosad",
+        "Vyara",
+        "Moti Nagar",
+        "Jayram Nagar",
+        "Ravaliya Mahudevegon",
+        "Golden Park",
+        "Botad"
       ]
     },
     {
@@ -3339,7 +3358,13 @@
         "Umri",
         "DD colony",
         "Jagjivan Pura",
-        "Old Fatehabad"
+        "Old Fatehabad",
+        "Vill",
+        "Dharamveer Colony",
+        "Gulab Colony",
+        "Baag Walla Mohalla",
+        "Bapura",
+        "MDR"
       ]
     },
     {
@@ -3424,7 +3449,11 @@
         "Sarvari",
         "Basdehra",
         "Akhara",
-        "Samkhetar"
+        "Samkhetar",
+        "Dharampur",
+        "VPO",
+        "Dhandri",
+        "Dehra Gopipur"
       ]
     },
     {
@@ -3485,7 +3514,9 @@
         "Kanka",
         "Kokar",
         "Kadru",
-        "Kumhartoli"
+        "Kumhartoli",
+        "Gokul Nagar",
+        "Rasikpur"
       ]
     },
     {
@@ -4209,7 +4240,9 @@
         "Chamkur Sahib",
         "Banga",
         "Balachaur",
-        "Banga Rural"
+        "Banga Rural",
+        "Sahibzada Ajit Singh Nagar",
+        "Kot Kapura"
       ]
     },
     {
