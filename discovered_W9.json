@@ -1587,7 +1587,7 @@
   "Bihar|Pirmuhani": 2,
   "Bihar|Karbigahiya": 1,
   "Bihar|Jagdeo Path": 1,
-  "Bihar|Indrapuri": 2,
+  "Bihar|Indrapuri": 3,
   "Bihar|Krishna Appartment": 1,
   "Bihar|Gewalbigha": 4,
   "Bihar|Muslim hotel": 1,
@@ -1954,5 +1954,17 @@
   "Bihar|Nasriganj": 1,
   "Bihar|S. K. Puram": 2,
   "Bihar|Gokhula Path": 1,
-  "Bihar|Gavtal": 1
+  "Bihar|Gavtal": 1,
+  "Bihar|Pakri": 1,
+  "Bihar|Hathua": 1,
+  "Bihar|Chhoti Pahari": 1,
+  "Bihar|Munna Chak": 1,
+  "Bihar|mohammadpur": 1,
+  "Bihar|Sarhwara": 1,
+  "Bihar|Ambedkar Path": 1,
+  "Bihar|atal path": 1,
+  "Bihar|mig": 1,
+  "Bihar|Khasmahal": 1,
+  "Bihar|sec B": 1,
+  "Bihar|Beur": 1
 }
