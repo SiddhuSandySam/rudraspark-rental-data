@@ -1310,7 +1310,7 @@
   "Bihar|Jhakhari Mahadev": 1,
   "Bihar|Bihar": 2,
   "Bihar|Chandpur Bela": 1,
-  "Bihar|Bakarganj": 1,
+  "Bihar|Bakarganj": 2,
   "Bihar|Lakhan pura": 1,
   "Bihar|Chand Chaura": 2,
   "Bihar|Dhobi Chak": 1,
@@ -1473,7 +1473,7 @@
   "Bihar|मोगलाघाट": 1,
   "Bihar|पाण्डेय पट्टी": 1,
   "Bihar|BHELAHI": 1,
-  "Bihar|Bairiya": 1,
+  "Bihar|Bairiya": 2,
   "Bihar|Garthan": 1,
   "Bihar|Bhirkhi Pul": 1,
   "Bihar|Madhepura Bihar": 1,
@@ -1630,5 +1630,11 @@
   "Bihar|Nanpur": 1,
   "Bihar|Koili": 1,
   "Bihar|Buddha Smriti Park": 2,
-  "Bihar|Dumri": 1
+  "Bihar|Dumri": 1,
+  "Bihar|Jakkanpur": 2,
+  "Bihar|Jaganpura": 1,
+  "Bihar|Pahari": 1,
+  "Bihar|Jamsaut": 1,
+  "Bihar|Sarba": 1,
+  "Bihar|Malti": 1
 }
