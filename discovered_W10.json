@@ -1480,7 +1480,7 @@
   "Bihar|Durja": 1,
   "Bihar|Balapur": 1,
   "Bihar|Atal Path": 2,
-  "Bihar|Thana": 4,
+  "Bihar|Thana": 5,
   "Bihar|Sandalpur": 1,
   "Bihar|Kumhrar Gomti": 1,
   "Bihar|Kumhrar gumti": 1,
@@ -1843,5 +1843,14 @@
   "Bihar|Anisabad Landmark": 1,
   "Bihar|Saket Vihar": 1,
   "Bihar|Tabhaka": 1,
-  "Bihar|pachhiyari tol": 1
+  "Bihar|pachhiyari tol": 1,
+  "Bihar|Dumra": 1,
+  "Bihar|Lalbagh": 1,
+  "Bihar|Garhbanaili": 1,
+  "Bihar|Chausa": 1,
+  "Bihar|Birpur": 1,
+  "Bihar|Dakhin Parsa": 1,
+  "Bihar|Kumna": 1,
+  "Bihar|Maniach": 1,
+  "Bihar|Dihara": 1
 }
