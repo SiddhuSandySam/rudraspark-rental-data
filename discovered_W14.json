@@ -1332,7 +1332,7 @@
   "Bihar|Aerodrome Darbhanga": 1,
   "Bihar|Sonbersa": 2,
   "Bihar|Dhur Lakh": 1,
-  "Bihar|Chhatauni": 2,
+  "Bihar|Chhatauni": 3,
   "Bihar|Mor": 1,
   "Bihar|Jagdeo Path": 2,
   "Bihar|Sipara": 4,
@@ -1498,7 +1498,7 @@
   "Bihar|Bhahma": 1,
   "Bihar|R.K. College": 1,
   "Bihar|Khirhar": 1,
-  "Bihar|Bariyarpur": 4,
+  "Bihar|Bariyarpur": 5,
   "Bihar|Nimarang": 1,
   "Bihar|Satgama": 2,
   "Bihar|Mahisouri": 1,
@@ -1765,5 +1765,10 @@
   "Bihar|Aliganj": 1,
   "Bihar|Delha": 1,
   "Bihar|Barki": 1,
-  "Bihar|Shumali Mohalla": 1
+  "Bihar|Shumali Mohalla": 1,
+  "Bihar|zamania roead": 1,
+  "Bihar|durgawti": 1,
+  "Bihar|shivdih MahadevSimrya": 1,
+  "Bihar|N.H": 1,
+  "Bihar|V_mart": 1
 }
