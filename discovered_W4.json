@@ -1401,7 +1401,7 @@
   "Bihar|Chauraha": 1,
   "Bihar|Anandpur": 1,
   "Bihar|nasriganj": 1,
-  "Bihar|Nasriganj": 1,
+  "Bihar|Nasriganj": 2,
   "Bihar|Jakariyapur": 1,
   "Bihar|R.N": 1,
   "Bihar|Nera BSNL TAWAR": 1,
@@ -1808,5 +1808,9 @@
   "Bihar|Basant Pur": 1,
   "Bihar|Bahadurpur Chiknauta": 1,
   "Bihar|Bela Dargah": 1,
-  "Bihar|Andar": 1
+  "Bihar|Andar": 1,
+  "Bihar|Gorhaul Sharif": 1,
+  "Bihar|Singhwara": 1,
+  "Bihar|OVERBRIDGE": 1,
+  "Bihar|Paharpur": 1
 }
