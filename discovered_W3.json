@@ -1505,7 +1505,7 @@
   "Bihar|Sadikpur": 1,
   "Bihar|Gurhatta": 1,
   "Bihar|Ilahi Bag": 1,
-  "Bihar|Paijawa": 2,
+  "Bihar|Paijawa": 3,
   "Bihar|Chauraha": 1,
   "Bihar|Sipara": 1,
   "Bihar|Bigrahpur": 3,
@@ -2120,7 +2120,7 @@
   "Bihar|Dumri": 1,
   "Bihar|Khanjarpur": 1,
   "Bihar|Katahalbari": 1,
-  "Bihar|Barheta": 1,
+  "Bihar|Barheta": 2,
   "Bihar|Rambagh": 1,
   "Bihar|Bampali": 1,
   "Bihar|Barmasiya": 1,
@@ -2158,7 +2158,7 @@
   "Bihar|Rasoolpur": 1,
   "Bihar|Narayanpur": 1,
   "Bihar|Baruna": 1,
-  "Bihar|MURARPUR": 1,
+  "Bihar|MURARPUR": 2,
   "Bihar|Nayagaon": 1,
   "Bihar|Chhitnawan": 1,
   "Bihar|Danapur Cantt": 1,
@@ -2175,5 +2175,8 @@
   "Bihar|Patliputra Golambar": 1,
   "Bihar|Barauli": 1,
   "Bihar|Bagahwa": 1,
-  "Bihar|Jamunha": 1
+  "Bihar|Jamunha": 1,
+  "Bihar|Pandasarai": 1,
+  "Bihar|Shanti Niketan Davakhana": 1,
+  "Bihar|Gauriya Mandir": 1
 }
