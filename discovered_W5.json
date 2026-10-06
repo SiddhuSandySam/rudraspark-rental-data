@@ -1980,7 +1980,7 @@
   "Bihar|Mahajan Toli": 1,
   "Bihar|Kiratpur Raja Ram": 2,
   "Bihar|Ashok Rajpath": 1,
-  "Bihar|Raja Ji Salai": 1,
+  "Bihar|Raja Ji Salai": 2,
   "Bihar|Bakarganj": 2,
   "Bihar|bind toli": 1,
   "Bihar|Durga Bari": 3,
@@ -2291,7 +2291,7 @@
   "Bihar|Rajapur": 1,
   "Bihar|Chailwa": 1,
   "Bihar|laxmipur": 1,
-  "Bihar|Gandhi Ghat": 1,
+  "Bihar|Gandhi Ghat": 2,
   "Bihar|Bhagwatipur": 1,
   "Bihar|Kanjhia": 1,
   "Bihar|Singhaul Dih": 1,
@@ -2304,5 +2304,7 @@
   "Bihar|Mangar Bigha": 1,
   "Bihar|Diara Malahi": 1,
   "Bihar|Gurhatta": 1,
-  "Bihar|Phulhara": 1
+  "Bihar|Phulhara": 1,
+  "Bihar|deokulidham": 1,
+  "Bihar|Bans Ghat": 1
 }
