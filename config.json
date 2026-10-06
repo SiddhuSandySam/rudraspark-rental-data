@@ -2026,7 +2026,10 @@
         "Pase",
         "Anand Park",
         "Shivranjani",
-        "Moti Begumwadi"
+        "Moti Begumwadi",
+        "Kothariya",
+        "Fatak",
+        "Vrajbhoomi Ground"
       ]
     },
     {
@@ -2317,7 +2320,8 @@
         "Mochi Mohalla",
         "Palasra",
         "Chandigarh",
-        "Anamika Enclave"
+        "Anamika Enclave",
+        "Garhi Gujran"
       ]
     },
     {
@@ -2483,7 +2487,8 @@
         "Nasogi",
         "Sidhpur",
         "Sugghar",
-        "Garkhal"
+        "Garkhal",
+        "Main"
       ]
     },
     {
@@ -2637,7 +2642,22 @@
         "Amwatikar",
         "Dudhani",
         "Abadganj",
-        "Tuiladungri"
+        "Tuiladungri",
+        "Wassepur",
+        "Damodarpur",
+        "Gobindpur",
+        "Sahibganj PART",
+        "Pahartoli",
+        "Pandra",
+        "Kathartoli",
+        "Karkat",
+        "South Redma",
+        "Ratu",
+        "Bhandaridih",
+        "Bijulia",
+        "Hamidganj",
+        "Sasang",
+        "Rerma"
       ]
     },
     {
@@ -3000,7 +3020,15 @@
         "Talaghattapura",
         "Kallare",
         "Byatarayanapura",
-        "Extension"
+        "Extension",
+        "Belagavi Cantonment",
+        "Peenya",
+        "ITI Layout",
+        "Channappa Layout",
+        "Yelachenahalli",
+        "UdupiManipal Hwy",
+        "Halbarga",
+        "Srirampura"
       ]
     },
     {
@@ -3241,7 +3269,15 @@
         "Kappalandimukku",
         "Kannankulangara",
         "Velapuram",
-        "Kumarapuram"
+        "Kumarapuram",
+        "Panvel  Kochi  Kanyakumari Hwy",
+        "Parappur",
+        "Padippura",
+        "Karipur",
+        "Parambilangadi",
+        "Changuvetty Kundu",
+        "Palakkunnu",
+        "th Mile"
       ]
     },
     {
@@ -3336,7 +3372,21 @@
         "Ganj",
         "Neemuch Chawni",
         "Jiwaji Ganj",
-        "Suraj Ganj"
+        "Suraj Ganj",
+        "Scheme  PU",
+        "Sukhliya",
+        "Indrapuri",
+        "Nanakheda",
+        "Freeganj",
+        "Makroniya",
+        "Civil Line",
+        "Baripura",
+        "Nai Abaadi",
+        "Englishpura",
+        "Kiratpura",
+        "Jagdish Pura",
+        "Agar",
+        "Pochaupati"
       ]
     },
     {
@@ -4184,7 +4234,9 @@
         "Manglaur",
         "Vikasnagar",
         "Herbertpur",
-        "Doiwala"
+        "Doiwala",
+        "Jwalapur",
+        "Jagatpura"
       ]
     },
     {
