@@ -3397,7 +3397,11 @@
         "Pushpkunj",
         "Pavan Chakki",
         "Egara",
-        "Vavadi Bujarg Part"
+        "Vavadi Bujarg Part",
+        "Kapdwanj",
+        "Kundal",
+        "Kasba",
+        "Gavadi"
       ]
     },
     {
@@ -3698,7 +3702,9 @@
         "Jakohpur",
         "Banipur",
         "Mohalla Phika Peer",
-        "Pacca Bagh"
+        "Pacca Bagh",
+        "Chotti Line",
+        "Pooja Vihar"
       ]
     },
     {
@@ -4052,7 +4058,10 @@
         "Jamua",
         "Pathan Toli Muhalla",
         "Kathara",
-        "Manbad Mohala"
+        "Manbad Mohala",
+        "Jharkhand",
+        "Jhirga Toli",
+        "Nai Duniya Mohlla"
       ]
     },
     {
@@ -4430,7 +4439,13 @@
         "Kadugodi",
         "Hebbalu",
         "Baichanalli",
-        "Bramaramba Extension"
+        "Bramaramba Extension",
+        "Kaikamba",
+        "Udyambag",
+        "Ambagilu",
+        "Ambewadi",
+        "Bannimantap",
+        "Morkhandi"
       ]
     },
     {
@@ -4680,7 +4695,11 @@
         "Parambilangadi",
         "Changuvetty Kundu",
         "Palakkunnu",
-        "th Mile"
+        "th Mile",
+        "Thavakkara",
+        "Elayavoor",
+        "Payancheri Mukku",
+        "Edappally  Panvel Hwy"
       ]
     },
     {
@@ -4819,7 +4838,16 @@
         "Agra Mohalla",
         "Takha",
         "Madiya Pangarha",
-        "ramtekri"
+        "ramtekri",
+        "Nipania",
+        "Karond",
+        "Lalghati",
+        "Malipura",
+        "Tilak Ganj",
+        "Lalpura",
+        "Chhawani",
+        "Benisagar Mohalla",
+        "Naya Mohalla"
       ]
     },
     {
@@ -4883,7 +4911,8 @@
         "Mulund",
         "Andheri West",
         "Wahal",
-        "Ulwe"
+        "Ulwe",
+        "VasaiVirar"
       ]
     },
     {
@@ -5760,7 +5789,9 @@
         "Farakka",
         "Jangipur",
         "Maynaguri",
-        "Bangaon"
+        "Bangaon",
+        "Kotrung",
+        "Chinsurah R S"
       ]
     },
     {
