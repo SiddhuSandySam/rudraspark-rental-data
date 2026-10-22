@@ -3787,7 +3787,8 @@
         "Delhi Rohtak Corridor",
         "Medicity",
         "Nehru Ground",
-        "Rampura"
+        "Rampura",
+        "Kaunt"
       ]
     },
     {
@@ -4160,7 +4161,8 @@
         "Amtalla Bherwa",
         "Thana",
         "Sugiadih",
-        "Dhurwa"
+        "Dhurwa",
+        "Nawada"
       ]
     },
     {
@@ -4677,7 +4679,12 @@
         "Bengeri Extension",
         "Melkar",
         "Ankola",
-        "JC Extension"
+        "JC Extension",
+        "PWD Quarters",
+        "Sannatammanahalli",
+        "Akkipete",
+        "Jannapur",
+        "Aavalahalli"
       ]
     },
     {
@@ -5007,7 +5014,14 @@
         "Mavungal",
         "KVM Arcade",
         "Keetholi",
-        "Desom"
+        "Desom",
+        "Puthiyara",
+        "Olavakode",
+        "Thanalur",
+        "Edakkara",
+        "Dubaipadi",
+        "HiLITE Business Park",
+        "Kuttadu"
       ]
     },
     {
@@ -5190,7 +5204,10 @@
         "Scheme",
         "Raksha",
         "Dansipura",
-        "Govindpura"
+        "Govindpura",
+        "Chhawani Naka",
+        "Hari Phatak",
+        "Rama Talai Khacharod Ka"
       ]
     },
     {
@@ -5493,7 +5510,19 @@
         "Prasad Rao Peta",
         "Samaraipur",
         "Gaudaguda",
-        "Goreguda"
+        "Goreguda",
+        "Rasulgarh",
+        "Chandrasekharpur",
+        "Balia",
+        "Gopalgoan",
+        "Bhanjpur",
+        "Deulasahi",
+        "Chhak",
+        "Amalapada",
+        "Raurkela",
+        "Birmitrapur",
+        "Rajabagicha",
+        "Budharaja"
       ]
     },
     {
