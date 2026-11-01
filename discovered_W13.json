@@ -2607,7 +2607,7 @@
   "Goa|kumya morod": 1,
   "Goa|Diyanv": 2,
   "Goa|Rose Mansion Igramoll": 2,
-  "Goa|Consua": 1,
+  "Goa|Consua": 2,
   "Goa|next to Palolem": 1,
   "Goa|Pernem – Agarwada  Morjim": 3,
   "Goa|Kasarvarne": 4,
@@ -2639,8 +2639,8 @@
   "Goa|Goenkar waddo": 1,
   "Goa|White Flower": 1,
   "Goa|petrol pump": 1,
-  "Goa|Khalchawada": 4,
-  "Goa|Varchawada": 1,
+  "Goa|Khalchawada": 5,
+  "Goa|Varchawada": 2,
   "Goa|Madhalawala": 1,
   "Goa|Bagwada": 1,
   "Goa|Taluka": 1,
@@ -2859,5 +2859,7 @@
   "Goa|Gaonkarwada": 1,
   "Goa|Sim": 1,
   "Goa|Buildmore Clasik": 1,
-  "Goa|Binwaddo": 1
+  "Goa|Binwaddo": 1,
+  "Goa|Velsao": 1,
+  "Goa|Panchayat": 1
 }
