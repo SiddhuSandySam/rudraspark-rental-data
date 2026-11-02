@@ -2147,7 +2147,8 @@
         "Kazipur Dariyapur",
         "Bamroli",
         "Matavadi",
-        "Bhudarpura"
+        "Bhudarpura",
+        "Chadotar"
       ]
     },
     {
@@ -2499,7 +2500,10 @@
         "Bhakli",
         "Suthana",
         "Mohalla Balmikan",
-        "Tikona Park"
+        "Tikona Park",
+        "Bhagganpuri",
+        "Taiyan Pana",
+        "Garhi Bolni"
       ]
     },
     {
@@ -2688,7 +2692,9 @@
         "Bhagwan Muhalla",
         "Civil Lines",
         "Kandaghat",
-        "Manali  Leh Hwy"
+        "Manali  Leh Hwy",
+        "Chauk",
+        "Dadour"
       ]
     },
     {
@@ -3423,7 +3429,14 @@
         "Engineering College Cir",
         "Hosapalaya",
         "Lakshmipuri Layout",
-        "Kadri Hills"
+        "Kadri Hills",
+        "Doddamavalli",
+        "Kithiganur",
+        "Sunkadakatte",
+        "Mahalakshmi Layout",
+        "Sriramapura",
+        "Ballupet",
+        "Harohalli"
       ]
     },
     {
@@ -4122,7 +4135,9 @@
         "Kheda",
         "Biaora",
         "Purani Itarsi",
-        "Gwaltoli"
+        "Gwaltoli",
+        "Mindal",
+        "Square"
       ]
     },
     {
@@ -4621,7 +4636,11 @@
         "Khiwa",
         "Tikhowal",
         "Main",
-        "Keshgarh Sahib"
+        "Keshgarh Sahib",
+        "Miller Ganj",
+        "Jalandhar Cantt",
+        "Krishna Nagri",
+        "Ferozepur Cantt"
       ]
     },
     {
@@ -4719,7 +4738,15 @@
         "Madanganj",
         "Bikaner City",
         "Naya Gaon",
-        "Bhopal Ganj"
+        "Bhopal Ganj",
+        "Gangashahar",
+        "Ratanada",
+        "Mansarovar",
+        "Hiran Magri",
+        "Karoli",
+        "Aburaj",
+        "Gumanpura",
+        "Talwandi"
       ]
     },
     {
