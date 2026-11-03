@@ -2148,7 +2148,10 @@
         "Bamroli",
         "Matavadi",
         "Bhudarpura",
-        "Chadotar"
+        "Chadotar",
+        "Kharawala Compound",
+        "Kosamdi",
+        "Manharpura"
       ]
     },
     {
@@ -2694,7 +2697,9 @@
         "Kandaghat",
         "Manali  Leh Hwy",
         "Chauk",
-        "Dadour"
+        "Dadour",
+        "Jahu",
+        "Mohal"
       ]
     },
     {
@@ -3436,7 +3441,8 @@
         "Mahalakshmi Layout",
         "Sriramapura",
         "Ballupet",
-        "Harohalli"
+        "Harohalli",
+        "Bennigana Halli"
       ]
     },
     {
@@ -4137,7 +4143,18 @@
         "Purani Itarsi",
         "Gwaltoli",
         "Mindal",
-        "Square"
+        "Square",
+        "Misrod",
+        "Takipura",
+        "Banbana",
+        "Neemuch Naka",
+        "Tiraha",
+        "Parmandal",
+        "Sugan Chauraha",
+        "Salapura",
+        "Gortara",
+        "Sohagpur",
+        "Budhi"
       ]
     },
     {
@@ -4640,7 +4657,14 @@
         "Miller Ganj",
         "Jalandhar Cantt",
         "Krishna Nagri",
-        "Ferozepur Cantt"
+        "Ferozepur Cantt",
+        "Satnampura",
+        "Jamalpura",
+        "Tapa Mohalla",
+        "Gugga Mari Mohalla",
+        "Jyoti Saroop",
+        "Lohgarh",
+        "Dana Mandi"
       ]
     },
     {
@@ -4746,7 +4770,11 @@
         "Karoli",
         "Aburaj",
         "Gumanpura",
-        "Talwandi"
+        "Talwandi",
+        "Manpur",
+        "Sawaimadhopur",
+        "Gangapur",
+        "choraha"
       ]
     },
     {
